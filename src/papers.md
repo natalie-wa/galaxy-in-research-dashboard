@@ -17,13 +17,13 @@ const institutionName = id=>corpus.institution_locations.find(d=>d.id===id)?.nam
 const countries = ['All countries', ...new Set(works.flatMap(d=>d.countries).sort())];
 ```
 
-<header class="brand-header"><a href="https://galaxyproject.org" aria-label="Galaxy Project home"><img src="./assets/galaxy-logo.svg" alt="Galaxy" /></a><nav aria-label="Dashboard navigation"><a href="./papers">All publications</a></nav></header>
+<header class="brand-header"><a href="https://galaxyproject.org" aria-label="Galaxy Project home"><img src="./assets/galaxy-logo.svg" alt="Galaxy" /></a><nav aria-label="Dashboard navigation"><a href="./papers.html">All publications</a></nav></header>
 
 <div class="hero"><div><div class="eyebrow">Galaxy in Research</div><h1>Explore <span>the publications</span></h1><p>Search the literature, sort the results, and follow the research.</p></div><div class="snapshot">Through 16 October 2026</div></div>
 
 ```js
 const overviewHref = './?'+new URLSearchParams({year:String(year),field,query,country,institution});
-display(html`<nav class="view-tabs" aria-label="Dashboard views"><a href=${overviewHref}>Overview</a><a href="./papers" aria-current="page">Explore the publications</a></nav>`);
+display(html`<nav class="view-tabs" aria-label="Dashboard views"><a href=${overviewHref}>Overview</a><a href="./papers.html" aria-current="page">Explore the publications</a></nav>`);
 ```
 
 <div class="filter-bar"><div>${yearInput}</div><div>${countryInput}</div><div>${institutionInput}</div><div>${fieldInput}</div><div>${searchInput}</div></div>

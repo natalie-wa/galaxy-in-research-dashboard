@@ -29,6 +29,7 @@ selected=await main.value('selected');if(selected.length!==1389)throw Error('Yea
 const map=await main.value('map');const selector=map.querySelector('select');selector.value='US';selector.dispatchEvent(new Event('change'));await new Promise(resolve=>setTimeout(resolve,30));
 selected=await main.value('selected');if(!selected.length || !selected.every(d=>d.year===2025&&d.countries.includes('US')))throw Error('Map filter failed');
 const toPapers=await main.value('explorerHref');
+if(new URL(toPapers,'https://example.org/repository/').pathname!=='/repository/papers.html')throw Error('Explorer link must support static hosting under a repository path');
 if(new URL(toPapers,'https://example.org/').searchParams.get('country')!=='US')throw Error('Overview link did not preserve country');
 document.body.append(map);
 const institutionToggle=map.querySelector('[aria-label="Show institutions"]');
@@ -54,6 +55,7 @@ for(const cell of paperCells){if(!cell.outputs?.length||cell.outputs.includes('w
 const paperSelection=await paperMain.value('selected');
 if(paperSelection.length!==expectedUniversity.length)throw Error('Paper tab did not retain filters: '+paperSelection.length);
 const back=await paperMain.value('overviewHref');
+if(new URL(back,'https://example.org/repository/papers.html').pathname!=='/repository/')throw Error('Return link escapes repository path');
 const backParams=new URL(back,'https://example.org/').searchParams;
 if(backParams.get('year')!=='2025'||backParams.get('institution')!==chosenId)throw Error('Paper tab return link lost filters');
 console.log('PASS paper tab: institution/year filters preserved in both navigation directions.');

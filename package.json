@@ -8,7 +8,8 @@
     "test": "python3 scripts/prepare_data.py --check && node --test",
     "dev": "observable preview",
     "build": "npm run data && node scripts/clean_build.mjs && observable build",
-    "test:runtime": "node scripts/verify_runtime.mjs"
+    "test:runtime": "node scripts/verify_runtime.mjs",
+    "test:pages": "node scripts/verify_pages.mjs"
   },
   "dependencies": {
     "@observablehq/framework": "1.13.4"

@@ -18,6 +18,7 @@ Open the local URL printed by Framework. To build and validate the static site:
 ```sh
 npm run build
 npm run test:runtime
+npm run test:pages
 ```
 
 Output is generated in `dist/`. The first Framework build may require internet access for frontend libraries. Data preparation uses committed snapshots offline and Python's standard library. JavaScript dependencies are pinned in `package-lock.json`.
@@ -46,7 +47,7 @@ Year, research field, and title/DOI filters combine with country or institution 
 
 See [METHODS.md](docs/METHODS.md) for counting rules and limitations, and [excluded_publications.csv](docs/excluded_publications.csv) for exclusions. Citation relationships do not independently establish platform use.
 
-`npm test` checks deterministic dataset generation, reconciles four original aggregate tables, and tests filtering and interface interactions. `npm run test:runtime` verifies the compiled application's filters and navigation. GitHub Actions runs checks on pushes and pull requests; it does not deploy.
+`npm test` checks deterministic dataset generation, reconciles four original aggregate tables, and tests filtering and interface interactions. `npm run test:runtime` verifies the compiled application's filters and navigation. GitHub Actions checks pull requests and updates to `main`. Successful updates to `main` publish the built site to GitHub Pages once Pages is enabled.
 
 ## Refreshing institution locations
 
@@ -58,6 +59,7 @@ npm run data
 npm test
 npm run build
 npm run test:runtime
+npm run test:pages
 ```
 
 Review snapshot changes before committing. Retrieval records and checksums preserve provenance.
@@ -66,4 +68,8 @@ Review snapshot changes before committing. Retrieval records and checksums prese
 
 Asset sources and checksums are in [ASSETS.json](docs/ASSETS.json). The Atkinson Hyperlegible font license is included in `docs/Atkinson-OFL.txt`. Natural Earth geometry is public domain. Galaxy branding remains subject to applicable terms. No project code or data license has been selected.
 
-This is a development draft. Browser visual and accessibility review, the Galaxy Hub hosting path, and deployment integration remain to be completed. The source package's release conditions, including PI approval and data redistribution terms, remain to be resolved before public release.
+This is a development draft. Browser visual and accessibility review and eventual Galaxy Hub integration remain to be completed. A standalone GitHub Pages deployment workflow is included. The source package's release conditions, including PI approval and data redistribution terms, remain to be resolved before public release.
+
+## GitHub Pages preview
+
+See [PUBLISHING.md](docs/PUBLISHING.md) for the initial repository and Pages setup. The workflow publishes only `dist/`; source snapshots remain in the repository. Publication metadata included in the built dashboard are accessible to site visitors. No separate hosting account or manually configured deployment token is needed.

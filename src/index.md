@@ -20,12 +20,12 @@ const years = ['All years', ...Array.from(new Set(works.map(d=>d.year).filter(d=
 const fields = ['All fields', ...new Set(works.map(d=>d.field).sort())];
 ```
 
-<header class="brand-header"><a href="https://galaxyproject.org" aria-label="Galaxy Project home"><img src="./assets/galaxy-logo.svg" alt="Galaxy" /></a><nav aria-label="Dashboard navigation"><a href="./papers">All publications</a></nav></header>
+<header class="brand-header"><a href="https://galaxyproject.org" aria-label="Galaxy Project home"><img src="./assets/galaxy-logo.svg" alt="Galaxy" /></a><nav aria-label="Dashboard navigation"><a href="./papers.html">All publications</a></nav></header>
 
 <div class="hero"><div><div class="eyebrow">A global community of discovery</div><h1>Galaxy in <span>Research</span></h1><p>Explore the places, people, and publications connected through Galaxy.</p></div><div class="snapshot">Through 16 October 2026</div></div>
 
 ```js
-const explorerHref = './papers?'+new URLSearchParams({year:String(year),field,query,country,institution});
+const explorerHref = './papers.html?'+new URLSearchParams({year:String(year),field,query,country,institution});
 display(html`<nav class="view-tabs" aria-label="Dashboard views"><a href="./" aria-current="page">Overview</a><a href=${explorerHref}>Explore the publications</a></nav>`);
 ```
 
