@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src/.observablehq/
+__pycache__/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+*.zip

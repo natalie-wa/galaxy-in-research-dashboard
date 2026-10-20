@@ -1,0 +1,18 @@
+{
+  "galaxy-logo.svg": {
+    "source": "https://galaxyproject.org/images/galaxy_logo_white.svg",
+    "sha256": "5d7af331dd84b0f82c2bf51369088251c1e71f59318adf0cd9980f353722d29f"
+  },
+  "atkinson-regular.woff2": {
+    "source": "https://galaxyproject.org/_astro/atkinson-hyperlegible-latin-400-normal.BrHNak5F.woff2",
+    "sha256": "d64ba838ef5472bba248620ec4fd8b5aa7cf0db2908e0bb230600caf279ba7bc"
+  },
+  "atkinson-bold.woff2": {
+    "source": "https://galaxyproject.org/_astro/atkinson-hyperlegible-latin-700-normal.GZI4o3u0.woff2",
+    "sha256": "140e2bd25a7315c8a062508391426b0d8c3297400c947b8d847be28f73a199f0"
+  },
+  "world.geojson": {
+    "source": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_map_units.geojson",
+    "sha256": "b8d421aca6e9e08e8cdf09cc26af111cc3e0deba4fe915611d58ade71e8a4db0"
+  }
+}

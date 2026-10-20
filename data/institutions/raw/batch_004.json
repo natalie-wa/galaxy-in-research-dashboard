@@ -1,0 +1,1035 @@
+{
+  "request_url": "https://api.openalex.org/institutions?filter=openalex%3AI197251160%7CI200763008%7CI4210141533%7CI55732556%7CI79510175%7CI11932220%7CI22248866%7CI2750212522%7CI4210090236%7CI4210140884%7CI4400573273%7CI55143463%7CI56067802%7CI100066346%7CI137902535%7CI138006243%7CI153718931%7CI158708052%7CI34809795%7CI45084792%7CI76198965%7CI859038795%7CI97565354%7CI118564535%7CI141596103%7CI204337017%7CI219193219%7CI4405258862%7CI76130692%7CI135140700%7CI21250087%7CI22465464%7CI1326965316%7CI137479271%7CI146655781%7CI198244214%7CI3018483916%7CI32625721%7CI103187081%7CI1295562517%7CI129801699%7CI1334415907%7CI149899117%7CI154130895%7CI190249584%7CI20231570%7CI4210116730%7CI44260953%7CI80281795%7CI87048295&per-page=50&select=id%2Cdisplay_name%2Cgeo%2Cror%2Ccountry_code",
+  "requested_ids": [
+    "https://openalex.org/I197251160",
+    "https://openalex.org/I200763008",
+    "https://openalex.org/I4210141533",
+    "https://openalex.org/I55732556",
+    "https://openalex.org/I79510175",
+    "https://openalex.org/I11932220",
+    "https://openalex.org/I22248866",
+    "https://openalex.org/I2750212522",
+    "https://openalex.org/I4210090236",
+    "https://openalex.org/I4210140884",
+    "https://openalex.org/I4400573273",
+    "https://openalex.org/I55143463",
+    "https://openalex.org/I56067802",
+    "https://openalex.org/I100066346",
+    "https://openalex.org/I137902535",
+    "https://openalex.org/I138006243",
+    "https://openalex.org/I153718931",
+    "https://openalex.org/I158708052",
+    "https://openalex.org/I34809795",
+    "https://openalex.org/I45084792",
+    "https://openalex.org/I76198965",
+    "https://openalex.org/I859038795",
+    "https://openalex.org/I97565354",
+    "https://openalex.org/I118564535",
+    "https://openalex.org/I141596103",
+    "https://openalex.org/I204337017",
+    "https://openalex.org/I219193219",
+    "https://openalex.org/I4405258862",
+    "https://openalex.org/I76130692",
+    "https://openalex.org/I135140700",
+    "https://openalex.org/I21250087",
+    "https://openalex.org/I22465464",
+    "https://openalex.org/I1326965316",
+    "https://openalex.org/I137479271",
+    "https://openalex.org/I146655781",
+    "https://openalex.org/I198244214",
+    "https://openalex.org/I3018483916",
+    "https://openalex.org/I32625721",
+    "https://openalex.org/I103187081",
+    "https://openalex.org/I1295562517",
+    "https://openalex.org/I129801699",
+    "https://openalex.org/I1334415907",
+    "https://openalex.org/I149899117",
+    "https://openalex.org/I154130895",
+    "https://openalex.org/I190249584",
+    "https://openalex.org/I20231570",
+    "https://openalex.org/I4210116730",
+    "https://openalex.org/I44260953",
+    "https://openalex.org/I80281795",
+    "https://openalex.org/I87048295"
+  ],
+  "retrieved_at": "2026-10-20T18:17:53.355358+00:00",
+  "response": {
+    "meta": {
+      "notice": "No API key, so this request shares one free daily budget ($0.10) with everyone on your network's IP address. Get a free key with its own $1/day at https://openalex.org/settings/api and add api_key=YOUR_KEY to your requests. An AI agent can get one for its user in one call: POST https://api.openalex.org/api-keys with {\"email\": \"<your user's email>\"}; we email them a link, and the key works once they click it. Docs for agents: https://help.openalex.org/llms.txt",
+      "count": 50,
+      "db_response_time_ms": 18,
+      "page": 1,
+      "per_page": 50,
+      "groups_count": null,
+      "x_query": {
+        "oql": "get institutions where openalex id is (\n    I100066346 or I103187081 or I118564535 or I11932220 or I1295562517\n    or I129801699 or I1326965316 or I1334415907 or I135140700 or I137479271\n    or I137902535 or I138006243 or I141596103 or I146655781 or I149899117\n    or I153718931 or I154130895 or I158708052 or I190249584 or I197251160\n    or I198244214 or I200763008 or I20231570 or I204337017 or I21250087\n    or I219193219 or I22248866 or I22465464 or I2750212522 or I3018483916\n    or I32625721 or I34809795 or I4210090236 or I4210116730 or I4210140884\n    or I4210141533 or I4400573273 or I4405258862 or I44260953 or I45084792\n    or I55143463 or I55732556 or I56067802 or I76130692 or I76198965\n    or I79510175 or I80281795 or I859038795 or I87048295 or I97565354\n  )",
+        "x_new_oql": "get institutions where openalex id is (I100066346 or I103187081 or I118564535 or I11932220 or I1295562517 or I129801699 or I1326965316 or I1334415907 or I135140700 or I137479271 or I137902535 or I138006243 or I141596103 or I146655781 or I149899117 or I153718931 or I154130895 or I158708052 or I190249584 or I197251160 or I198244214 or I200763008 or I20231570 or I204337017 or I21250087 or I219193219 or I22248866 or I22465464 or I2750212522 or I3018483916 or I32625721 or I34809795 or I4210090236 or I4210116730 or I4210140884 or I4210141533 or I4400573273 or I4405258862 or I44260953 or I45084792 or I55143463 or I55732556 or I56067802 or I76130692 or I76198965 or I79510175 or I80281795 or I859038795 or I87048295 or I97565354)",
+        "oqo": {
+          "get_rows": "institutions",
+          "filter_rows": [
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I100066346"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I103187081"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I118564535"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I11932220"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I1295562517"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I129801699"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I1326965316"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I1334415907"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I135140700"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I137479271"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I137902535"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I138006243"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I141596103"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I146655781"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I149899117"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I153718931"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I154130895"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I158708052"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I190249584"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I197251160"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I198244214"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I200763008"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I20231570"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I204337017"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I21250087"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I219193219"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I22248866"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I22465464"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I2750212522"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I3018483916"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I32625721"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I34809795"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4210090236"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4210116730"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4210140884"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4210141533"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4400573273"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I4405258862"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I44260953"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I45084792"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I55143463"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I55732556"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I56067802"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I76130692"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I76198965"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I79510175"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I80281795"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I859038795"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I87048295"
+                },
+                {
+                  "column_id": "ids.openalex",
+                  "value": "I97565354"
+                }
+              ]
+            }
+          ]
+        },
+        "url": "/institutions?filter=ids.openalex:I100066346|I103187081|I118564535|I11932220|I1295562517|I129801699|I1326965316|I1334415907|I135140700|I137479271|I137902535|I138006243|I141596103|I146655781|I149899117|I153718931|I154130895|I158708052|I190249584|I197251160|I198244214|I200763008|I20231570|I204337017|I21250087|I219193219|I22248866|I22465464|I2750212522|I3018483916|I32625721|I34809795|I4210090236|I4210116730|I4210140884|I4210141533|I4400573273|I4405258862|I44260953|I45084792|I55143463|I55732556|I56067802|I76130692|I76198965|I79510175|I80281795|I859038795|I87048295|I97565354&per_page=50"
+      },
+      "cost_usd": 0.0001
+    },
+    "results": [
+      {
+        "id": "https://openalex.org/I76130692",
+        "display_name": "Zhejiang University",
+        "geo": {
+          "city": "Hangzhou",
+          "geonames_city_id": "1808926",
+          "region": "Zhejiang",
+          "country_code": "CN",
+          "country": "China",
+          "latitude": 30.29365,
+          "longitude": 120.16142
+        },
+        "ror": "https://ror.org/00a2xv884",
+        "country_code": "CN"
+      },
+      {
+        "id": "https://openalex.org/I20231570",
+        "display_name": "Peking University",
+        "geo": {
+          "city": "Beijing",
+          "geonames_city_id": "1816670",
+          "region": "Beijing",
+          "country_code": "CN",
+          "country": "China",
+          "latitude": 39.9075,
+          "longitude": 116.39723
+        },
+        "ror": "https://ror.org/02v51f717",
+        "country_code": "CN"
+      },
+      {
+        "id": "https://openalex.org/I118564535",
+        "display_name": "University of Bern",
+        "geo": {
+          "city": "Bern",
+          "geonames_city_id": "2661552",
+          "region": "Bern",
+          "country_code": "CH",
+          "country": "Switzerland",
+          "latitude": 46.94809,
+          "longitude": 7.44744
+        },
+        "ror": "https://ror.org/02k7v4d05",
+        "country_code": "CH"
+      },
+      {
+        "id": "https://openalex.org/I219193219",
+        "display_name": "Purdue University West Lafayette",
+        "geo": {
+          "city": "West Lafayette",
+          "geonames_city_id": "4928096",
+          "region": "Indiana",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 40.42587,
+          "longitude": -86.90807
+        },
+        "ror": "https://ror.org/02dqehb95",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I138006243",
+        "display_name": "University of Arizona",
+        "geo": {
+          "city": "Tucson",
+          "geonames_city_id": "5318313",
+          "region": "Arizona",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 32.22174,
+          "longitude": -110.92648
+        },
+        "ror": "https://ror.org/03m2x1q45",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I149899117",
+        "display_name": "Max Planck Society",
+        "geo": {
+          "city": "Munich",
+          "geonames_city_id": "2867714",
+          "region": "Bavaria",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 48.13743,
+          "longitude": 11.57549
+        },
+        "ror": "https://ror.org/01hhn8329",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I204337017",
+        "display_name": "Aarhus University",
+        "geo": {
+          "city": "Aarhus",
+          "geonames_city_id": "2624652",
+          "region": "Central Jutland",
+          "country_code": "DK",
+          "country": "Denmark",
+          "latitude": 56.15674,
+          "longitude": 10.21076
+        },
+        "ror": "https://ror.org/01aj84f44",
+        "country_code": "DK"
+      },
+      {
+        "id": "https://openalex.org/I55732556",
+        "display_name": "Arizona State University",
+        "geo": {
+          "city": "Tempe",
+          "geonames_city_id": "5317058",
+          "region": "Arizona",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 33.41477,
+          "longitude": -111.90931
+        },
+        "ror": "https://ror.org/03efmqc40",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I135140700",
+        "display_name": "University of Bonn",
+        "geo": {
+          "city": "Bonn",
+          "geonames_city_id": "2946447",
+          "region": "North Rhine-Westphalia",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 50.73438,
+          "longitude": 7.09549
+        },
+        "ror": "https://ror.org/041nas322",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I146655781",
+        "display_name": "University of Liverpool",
+        "geo": {
+          "city": "Liverpool",
+          "geonames_city_id": "2644210",
+          "region": "England",
+          "country_code": "GB",
+          "country": "United Kingdom",
+          "latitude": 53.41058,
+          "longitude": -2.97794
+        },
+        "ror": "https://ror.org/04xs57h96",
+        "country_code": "GB"
+      },
+      {
+        "id": "https://openalex.org/I137902535",
+        "display_name": "North Carolina State University",
+        "geo": {
+          "city": "Raleigh",
+          "geonames_city_id": "4487042",
+          "region": "North Carolina",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 35.7721,
+          "longitude": -78.63861
+        },
+        "ror": "https://ror.org/04tj63d06",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I859038795",
+        "display_name": "Virginia Tech",
+        "geo": {
+          "city": "Blacksburg",
+          "geonames_city_id": "4747845",
+          "region": "Virginia",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 37.22957,
+          "longitude": -80.41394
+        },
+        "ror": "https://ror.org/02smfhw86",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I55143463",
+        "display_name": "University of Turin",
+        "geo": {
+          "city": "Turin",
+          "geonames_city_id": "3165524",
+          "region": "Piedmont",
+          "country_code": "IT",
+          "country": "Italy",
+          "latitude": 45.07049,
+          "longitude": 7.68682
+        },
+        "ror": "https://ror.org/048tbm396",
+        "country_code": "IT"
+      },
+      {
+        "id": "https://openalex.org/I153718931",
+        "display_name": "University of Ottawa",
+        "geo": {
+          "city": "Ottawa",
+          "geonames_city_id": "6094817",
+          "region": "Ontario",
+          "country_code": "CA",
+          "country": "Canada",
+          "latitude": 45.41117,
+          "longitude": -75.69812
+        },
+        "ror": "https://ror.org/03c4mmv16",
+        "country_code": "CA"
+      },
+      {
+        "id": "https://openalex.org/I197251160",
+        "display_name": "Hebrew University of Jerusalem",
+        "geo": {
+          "city": "Jerusalem",
+          "geonames_city_id": "281184",
+          "region": "Jerusalem",
+          "country_code": "IL",
+          "country": "Israel",
+          "latitude": 31.76904,
+          "longitude": 35.21633
+        },
+        "ror": "https://ror.org/03qxff017",
+        "country_code": "IL"
+      },
+      {
+        "id": "https://openalex.org/I100066346",
+        "display_name": "University of Stuttgart",
+        "geo": {
+          "city": "Stuttgart",
+          "geonames_city_id": "2825297",
+          "region": "Baden-Wurttemberg",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 48.78232,
+          "longitude": 9.17702
+        },
+        "ror": "https://ror.org/04vnq7t77",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I21250087",
+        "display_name": "Charles University",
+        "geo": {
+          "city": "Prague",
+          "geonames_city_id": "3067696",
+          "region": "Prague",
+          "country_code": "CZ",
+          "country": "Czechia",
+          "latitude": 50.08804,
+          "longitude": 14.42076
+        },
+        "ror": "https://ror.org/024d6js02",
+        "country_code": "CZ"
+      },
+      {
+        "id": "https://openalex.org/I45084792",
+        "display_name": "University of Florence",
+        "geo": {
+          "city": "Florence",
+          "geonames_city_id": "3176959",
+          "region": "Tuscany",
+          "country_code": "IT",
+          "country": "Italy",
+          "latitude": 43.77925,
+          "longitude": 11.24626
+        },
+        "ror": "https://ror.org/04jr1s763",
+        "country_code": "IT"
+      },
+      {
+        "id": "https://openalex.org/I22465464",
+        "display_name": "University of Münster",
+        "geo": {
+          "city": "Münster",
+          "geonames_city_id": "2867543",
+          "region": "North Rhine-Westphalia",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 51.96236,
+          "longitude": 7.62571
+        },
+        "ror": "https://ror.org/00pd74e08",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I141596103",
+        "display_name": "University of Lisbon",
+        "geo": {
+          "city": "Lisbon",
+          "geonames_city_id": "2267057",
+          "region": "Lisbon",
+          "country_code": "PT",
+          "country": "Portugal",
+          "latitude": 38.72509,
+          "longitude": -9.1498
+        },
+        "ror": "https://ror.org/01c27hj86",
+        "country_code": "PT"
+      },
+      {
+        "id": "https://openalex.org/I154130895",
+        "display_name": "University of Auckland",
+        "geo": {
+          "city": "Auckland",
+          "geonames_city_id": "2193733",
+          "region": "Auckland",
+          "country_code": "NZ",
+          "country": "New Zealand",
+          "latitude": -36.84853,
+          "longitude": 174.76349
+        },
+        "ror": "https://ror.org/03b94tp07",
+        "country_code": "NZ"
+      },
+      {
+        "id": "https://openalex.org/I79510175",
+        "display_name": "Cardiff University",
+        "geo": {
+          "city": "Cardiff",
+          "geonames_city_id": "2653822",
+          "region": "Wales",
+          "country_code": "GB",
+          "country": "United Kingdom",
+          "latitude": 51.48,
+          "longitude": -3.18
+        },
+        "ror": "https://ror.org/03kk7td41",
+        "country_code": "GB"
+      },
+      {
+        "id": "https://openalex.org/I4210140884",
+        "display_name": "National Cancer Institute",
+        "geo": {
+          "city": "Bethesda",
+          "geonames_city_id": "4348599",
+          "region": null,
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 38.98067092895508,
+          "longitude": -77.10025787353516
+        },
+        "ror": "https://ror.org/040gcmg81",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I76198965",
+        "display_name": "Friedrich Schiller University Jena",
+        "geo": {
+          "city": "Jena",
+          "geonames_city_id": "2895044",
+          "region": "Thuringia",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 50.92878,
+          "longitude": 11.5899
+        },
+        "ror": "https://ror.org/05qpz1x62",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I190249584",
+        "display_name": "Universität Innsbruck",
+        "geo": {
+          "city": "Innsbruck",
+          "geonames_city_id": "2775220",
+          "region": "Tyrol",
+          "country_code": "AT",
+          "country": "Austria",
+          "latitude": 47.26266,
+          "longitude": 11.39454
+        },
+        "ror": "https://ror.org/054pv6659",
+        "country_code": "AT"
+      },
+      {
+        "id": "https://openalex.org/I44260953",
+        "display_name": "Heinrich Heine University Düsseldorf",
+        "geo": {
+          "city": "Düsseldorf",
+          "geonames_city_id": "2934246",
+          "region": "North Rhine-Westphalia",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 51.22319,
+          "longitude": 6.77927
+        },
+        "ror": "https://ror.org/024z2rq82",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I4405258862",
+        "display_name": "Université de Toulouse",
+        "geo": {
+          "city": "Toulouse",
+          "geonames_city_id": "2972315",
+          "region": "Occitanie",
+          "country_code": "FR",
+          "country": "France",
+          "latitude": 43.60426,
+          "longitude": 1.44367
+        },
+        "ror": "https://ror.org/01ahyrz84",
+        "country_code": "FR"
+      },
+      {
+        "id": "https://openalex.org/I200763008",
+        "display_name": "Justus-Liebig-Universität Gießen",
+        "geo": {
+          "city": "Giessen",
+          "geonames_city_id": "2920512",
+          "region": "Hesse",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 50.58727,
+          "longitude": 8.67554
+        },
+        "ror": "https://ror.org/033eqas34",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I97565354",
+        "display_name": "University of Lausanne",
+        "geo": {
+          "city": "Lausanne",
+          "geonames_city_id": "2659994",
+          "region": "Vaud",
+          "country_code": "CH",
+          "country": "Switzerland",
+          "latitude": 46.516,
+          "longitude": 6.63282
+        },
+        "ror": "https://ror.org/019whta54",
+        "country_code": "CH"
+      },
+      {
+        "id": "https://openalex.org/I3018483916",
+        "display_name": "University Medical Center Utrecht",
+        "geo": {
+          "city": "Utrecht",
+          "geonames_city_id": "2745912",
+          "region": "Utrecht",
+          "country_code": "NL",
+          "country": "The Netherlands",
+          "latitude": 52.09083,
+          "longitude": 5.12222
+        },
+        "ror": "https://ror.org/0575yy874",
+        "country_code": "NL"
+      },
+      {
+        "id": "https://openalex.org/I32625721",
+        "display_name": "University of Saskatchewan",
+        "geo": {
+          "city": "Saskatoon",
+          "geonames_city_id": "6141256",
+          "region": "Saskatchewan",
+          "country_code": "CA",
+          "country": "Canada",
+          "latitude": 52.13238,
+          "longitude": -106.66892
+        },
+        "ror": "https://ror.org/010x8gc63",
+        "country_code": "CA"
+      },
+      {
+        "id": "https://openalex.org/I34809795",
+        "display_name": "Medizinische Hochschule Hannover",
+        "geo": {
+          "city": "Hanover",
+          "geonames_city_id": "2910831",
+          "region": "Lower Saxony",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 52.37052,
+          "longitude": 9.73322
+        },
+        "ror": "https://ror.org/00f2yqf98",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I80281795",
+        "display_name": "University of Otago",
+        "geo": {
+          "city": "Dunedin",
+          "geonames_city_id": "2191562",
+          "region": "Otago",
+          "country_code": "NZ",
+          "country": "New Zealand",
+          "latitude": -45.87416,
+          "longitude": 170.50361
+        },
+        "ror": "https://ror.org/01jmxt844",
+        "country_code": "NZ"
+      },
+      {
+        "id": "https://openalex.org/I1334415907",
+        "display_name": "University Medical Center Groningen",
+        "geo": {
+          "city": "Groningen",
+          "geonames_city_id": "2755251",
+          "region": "Groningen",
+          "country_code": "NL",
+          "country": "The Netherlands",
+          "latitude": 53.21917,
+          "longitude": 6.56667
+        },
+        "ror": "https://ror.org/03cv38k47",
+        "country_code": "NL"
+      },
+      {
+        "id": "https://openalex.org/I56067802",
+        "display_name": "Université de Rennes",
+        "geo": {
+          "city": "Rennes",
+          "geonames_city_id": "2983990",
+          "region": "Brittany",
+          "country_code": "FR",
+          "country": "France",
+          "latitude": 48.11109,
+          "longitude": -1.67431
+        },
+        "ror": "https://ror.org/015m7wh34",
+        "country_code": "FR"
+      },
+      {
+        "id": "https://openalex.org/I158708052",
+        "display_name": "Chulalongkorn University",
+        "geo": {
+          "city": "Bangkok",
+          "geonames_city_id": "1609350",
+          "region": "Bangkok",
+          "country_code": "TH",
+          "country": "Thailand",
+          "latitude": 13.75398,
+          "longitude": 100.50144
+        },
+        "ror": "https://ror.org/028wp3y58",
+        "country_code": "TH"
+      },
+      {
+        "id": "https://openalex.org/I129801699",
+        "display_name": "University of Tasmania",
+        "geo": {
+          "city": "Hobart",
+          "geonames_city_id": "2163355",
+          "region": "Tasmania",
+          "country_code": "AU",
+          "country": "Australia",
+          "latitude": -42.87936,
+          "longitude": 147.32941
+        },
+        "ror": "https://ror.org/01nfmeh72",
+        "country_code": "AU"
+      },
+      {
+        "id": "https://openalex.org/I4210116730",
+        "display_name": "Universitätsmedizin Göttingen",
+        "geo": {
+          "city": "Göttingen",
+          "geonames_city_id": "2918632",
+          "region": "Lower Saxony",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 51.53443,
+          "longitude": 9.93228
+        },
+        "ror": "https://ror.org/021ft0n22",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I103187081",
+        "display_name": "Smithsonian Institution",
+        "geo": {
+          "city": "Washington",
+          "geonames_city_id": "4140963",
+          "region": "District of Columbia",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 38.89511,
+          "longitude": -77.03637
+        },
+        "ror": "https://ror.org/01pp8nd67",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I198244214",
+        "display_name": "Université Clermont Auvergne",
+        "geo": {
+          "city": "Clermont-Ferrand",
+          "geonames_city_id": "3024635",
+          "region": "Rhône-Alpes",
+          "country_code": "FR",
+          "country": "France",
+          "latitude": 45.77969,
+          "longitude": 3.08682
+        },
+        "ror": "https://ror.org/01a8ajp46",
+        "country_code": "FR"
+      },
+      {
+        "id": "https://openalex.org/I11932220",
+        "display_name": "Institució Catalana de Recerca i Estudis Avançats",
+        "geo": {
+          "city": "Barcelona",
+          "geonames_city_id": "3128760",
+          "region": "Catalonia",
+          "country_code": "ES",
+          "country": "Spain",
+          "latitude": 41.38879,
+          "longitude": 2.15899
+        },
+        "ror": "https://ror.org/0371hy230",
+        "country_code": "ES"
+      },
+      {
+        "id": "https://openalex.org/I22248866",
+        "display_name": "AgroParisTech",
+        "geo": {
+          "city": "Palaiseau",
+          "geonames_city_id": "2988758",
+          "region": "Île-de-France",
+          "country_code": "FR",
+          "country": "France",
+          "latitude": 48.71828,
+          "longitude": 2.2498
+        },
+        "ror": "https://ror.org/02kbmgc12",
+        "country_code": "FR"
+      },
+      {
+        "id": "https://openalex.org/I137479271",
+        "display_name": "Helmholtz Centre for Environmental Research",
+        "geo": {
+          "city": "Leipzig",
+          "geonames_city_id": "2879139",
+          "region": "Saxony",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 51.33962,
+          "longitude": 12.37129
+        },
+        "ror": "https://ror.org/000h6jb29",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I1295562517",
+        "display_name": "Naturalis Biodiversity Center",
+        "geo": {
+          "city": "Leiden",
+          "geonames_city_id": "2751773",
+          "region": null,
+          "country_code": "NL",
+          "country": "The Netherlands",
+          "latitude": 52.158329010009766,
+          "longitude": 4.493060111999512
+        },
+        "ror": "https://ror.org/0566bfb96",
+        "country_code": "NL"
+      },
+      {
+        "id": "https://openalex.org/I87048295",
+        "display_name": "Wellcome Trust",
+        "geo": {
+          "city": "London",
+          "geonames_city_id": "2643743",
+          "region": "England",
+          "country_code": "GB",
+          "country": "United Kingdom",
+          "latitude": 51.50853,
+          "longitude": -0.12574
+        },
+        "ror": "https://ror.org/029chgv08",
+        "country_code": "GB"
+      },
+      {
+        "id": "https://openalex.org/I2750212522",
+        "display_name": "Cold Spring Harbor Laboratory",
+        "geo": {
+          "city": "Cold Spring Harbor",
+          "geonames_city_id": "5113223",
+          "region": "New York",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 40.87149,
+          "longitude": -73.45679
+        },
+        "ror": "https://ror.org/02qz8b764",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I4210090236",
+        "display_name": "National Human Genome Research Institute",
+        "geo": {
+          "city": "Bethesda",
+          "geonames_city_id": "4348599",
+          "region": "Maryland",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 38.99696731567383,
+          "longitude": -77.09693145751953
+        },
+        "ror": "https://ror.org/00baak391",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I1326965316",
+        "display_name": "Julius Kühn-Institut",
+        "geo": {
+          "city": "Quedlinburg",
+          "geonames_city_id": "2851465",
+          "region": "Saxony-Anhalt",
+          "country_code": "DE",
+          "country": "Germany",
+          "latitude": 51.78843,
+          "longitude": 11.15006
+        },
+        "ror": "https://ror.org/022d5qt08",
+        "country_code": "DE"
+      },
+      {
+        "id": "https://openalex.org/I4400573273",
+        "display_name": "Minnesota Supercomputing Institute",
+        "geo": {
+          "city": "Minneapolis",
+          "geonames_city_id": "4275586",
+          "region": "Kansas",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 39.12194,
+          "longitude": -97.7067
+        },
+        "ror": "https://ror.org/038kp1442",
+        "country_code": "US"
+      },
+      {
+        "id": "https://openalex.org/I4210141533",
+        "display_name": "U.S. National Poultry Research Center",
+        "geo": {
+          "city": "Athens",
+          "geonames_city_id": "4180386",
+          "region": "Georgia",
+          "country_code": "US",
+          "country": "United States",
+          "latitude": 33.925628662109375,
+          "longitude": -83.35881042480469
+        },
+        "ror": "https://ror.org/03sc3bx43",
+        "country_code": "US"
+      }
+    ],
+    "group_by": []
+  }
+}
