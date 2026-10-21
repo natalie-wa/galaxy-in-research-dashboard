@@ -11,6 +11,7 @@ const Inputs=await import(req.resolve('@observablehq/inputs'));
 const {html:htl}=await import(req.resolve('htl'));
 const {input}=await import(root+'/node_modules/@observablehq/framework/dist/client/stdlib/generators/input.js');
 const metrics=await import(root+'/src/components/metrics.js');
+const publications=await import(root+'/src/components/publications.js');
 const exploration=await import(root+'/src/components/exploration.js');
 let source=fs.readFileSync(root+'/src/components/map.js','utf8').replace("'npm:d3@7.9.0'",JSON.stringify(new URL('file://'+root+'/node_modules/d3/src/index.js').href));
 const {researchMap}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
@@ -20,7 +21,7 @@ const html=fs.readFileSync(root+'/dist/index.html','utf8');let script=html.match
 script=script.replace(/^import .*;$/gm,'');
 const cells=[];new Function('define','registerFile',script)(cell=>cells.push(cell),()=>{});
 const runtime=new Runtime();const main=runtime.module();
-for(const [key,val] of Object.entries({...metrics,...exploration,Inputs,html:htl,display:()=>{},Generators:{input},researchMap,world,mapState:{value:null,overlayEnabled:false,overlayLimit:300},works:corpus.works,corpus,params:new URLSearchParams(),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories']}))main.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...metrics,...exploration,...publications,Inputs,html:htl,display:()=>{},Generators:{input},researchMap,world,mapState:{value:null,overlayEnabled:false,overlayLimit:300},browserState:{},works:corpus.works,corpus,params:new URLSearchParams(),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories']}))main.variable().define(key,[],()=>val);
 for(const cell of cells){if(!cell.outputs?.length||cell.outputs.includes('works')||cell.outputs.includes('paperTable')||cell.outputs.includes('temporal'))continue;
  main.variable().define('cell '+cell.id,cell.inputs,cell.body);for(const o of cell.outputs)main.variable().define(o,['cell '+cell.id],exports=>exports[o]);}
 main.variable({fulfilled:()=>{},rejected:error=>console.error(error)}).define('watch',['selected'],d=>d);
@@ -47,7 +48,7 @@ console.log('PASS compiled Observable runtime: 14,469 initial; 1,389 in 2025; '+
 // Verify the separate paper view accepts the same query-parameter selection.
 const runtime2=new Runtime();const paperMain=runtime2.module();
 const countryOptions=['All countries',...new Set(corpus.works.flatMap(d=>d.countries))];
-for(const [key,val] of Object.entries({...metrics,...exploration,Inputs,html:htl,display:()=>{},Generators:{input},works:corpus.works,corpus,params:new URLSearchParams(new URL(institutionHref,'https://example.org/').search),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories'],countries:countryOptions,institutionOptions:['All institutions',...corpus.institution_locations.map(d=>d.id)],institutionName:id=>id}))paperMain.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...metrics,...exploration,...publications,Inputs,html:htl,display:()=>{},Generators:{input},browserState:{},works:corpus.works,corpus,params:new URLSearchParams(new URL(institutionHref,'https://example.org/').search),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories'],countries:countryOptions,institutionOptions:['All institutions',...corpus.institution_locations.map(d=>d.id)],institutionName:id=>id}))paperMain.variable().define(key,[],()=>val);
 const paperHtml=fs.readFileSync(root+'/dist/papers.html','utf8');
 let paperScript=paperHtml.match(/<script type="module">([\s\S]*?)<\/script>/)[1].replace(/^import .*;$/gm,'');
 const paperCells=[];new Function('define','registerFile',paperScript)(cell=>paperCells.push(cell),()=>{});
@@ -80,7 +81,7 @@ runtime2.dispose();runtime.dispose();
 
 const runtime3=new Runtime();const compareMain=runtime3.module();
 const compareNames=new Map(corpus.works.map(d=>[d.topic,d.topic_name]));
-for(const [key,val] of Object.entries({...exploration,Inputs,html:htl,display:()=>{},Generators:{input},comparisonState:{view:'trends'},invalidation:undefined,works:corpus.works,corpus,params:new URLSearchParams('kind=country&left=US&right=DE&year=2025'),years:[2006,2025,2026],fields:['All fields'],topics:['All topics'],topicNames:compareNames,countries:countryOptions.filter(d=>d!=='All countries'),countryName:code=>code,institutionName:id=>id}))compareMain.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...exploration,Inputs,html:htl,display:()=>{},Generators:{input},comparisonState:{view:'trends'},invalidation:undefined,browserState:{},works:corpus.works,corpus,params:new URLSearchParams('kind=country&left=US&right=DE&year=2025'),years:[2006,2025,2026],fields:['All fields'],topics:['All topics'],topicNames:compareNames,countries:countryOptions.filter(d=>d!=='All countries'),countryName:code=>code,institutionName:id=>id}))compareMain.variable().define(key,[],()=>val);
 const compareHtml=fs.readFileSync(root+'/dist/compare.html','utf8');
 const compareScript=compareHtml.match(/<script type="module">([\s\S]*?)<\/script>/)[1].replace(/^import .*;$/gm,'');
 const compareCells=[];new Function('define','registerFile',compareScript)(cell=>compareCells.push(cell),()=>{});

@@ -40,7 +40,7 @@ test('paper carousel moves through results, links to DOI, and handles empty resu
 test('year dropdown and table explicitly use plain year strings',()=>{
  const page=fs.readFileSync(new URL('../src/index.md',import.meta.url),'utf8');
  assert.ok(page.includes('timeline(years'));
- assert.match(fs.readFileSync(new URL('../src/papers.md',import.meta.url),'utf8'),/year:d=>d===null\?'—':String\(d\)/);
+ assert.ok(fs.readFileSync(new URL('../src/papers.md',import.meta.url),'utf8').includes('format:d=>String(d)'));
 });
 
 test('dashboard excludes all dated records through 2005 and retains unknown years',()=>{
@@ -95,7 +95,7 @@ test('literature scrolling is automatic, recyclable, and pausable',()=>{
 test('dense paper table has its own view and footer disclaimer is absent',()=>{
  const overview=fs.readFileSync(new URL('../src/index.md',import.meta.url),'utf8');
  const papers=fs.readFileSync(new URL('../src/papers.md',import.meta.url),'utf8');
- assert.ok(!overview.includes('Inputs.table('));assert.ok(papers.includes('Inputs.table('));
+ assert.ok(!overview.includes('publicationBrowser('));assert.ok(papers.includes('publicationBrowser('));
  assert.ok(overview.includes('explorerHref'));assert.ok(papers.includes('overviewHref'));
  for(const page of [overview,papers])assert.ok(!page.includes('Citations do not establish platform use'));
 });
