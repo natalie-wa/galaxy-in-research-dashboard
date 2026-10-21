@@ -14,7 +14,7 @@ Country and institution counts use a distinct set per publication, so repeated a
 
 Research field is the primary OpenAlex field, with missing assignments explicitly labeled Unclassified. Automated classifications can be misleading; the manuscript flags a Decision Sciences classification artifact. Cited-reference categories describe the references cited, not confirmed tools or workflows in the paper.
 
-Year, field, and text filters intersect. These filters control the map's country shading and institution counts. Selecting a country on the map then filters the paper carousel, other summaries, and table; the map retains global context. The temporal chart spans 2006–2026, omitting the two unknown years. The year 2026 is incomplete.
+Year, time window, field, topic, and text filters intersect. These filters control the map's country shading and institution counts. Selecting a country on the map then filters the paper carousel, other summaries, and table; the map retains global context. The temporal chart spans 2006–2026, omitting the two unknown years. The year 2026 is incomplete.
 
 ## Institution overlay
 
@@ -22,7 +22,7 @@ The candidate location pool is the top 1,000 institutions by publication count i
 
 These are API-supplied geographic coordinates, often city-level rather than exact buildings; they are not independently surveyed or randomly jittered. No author-institution pairing is inferred from flattened source columns.
 
-Within that fixed pool, marker counts and ranking follow the map's year, field, and search filters. Display limits are 100, 300, and 1,000. Marker size reflects publication count. Hover or focus displays the institution name, city, and count. Institution dots do not link out. Selecting a dot filters papers by the exact institutional identifier, intersecting the year, field, and search filters. It replaces a country-only selection. The indicator can be cleared by clicking again or using Clear institution. The map does not claim to display every institution in a small filtered subset, since candidates are selected from the full corpus's leading 1,000.
+Within that fixed pool, marker counts and ranking follow the map's year, time window, field, topic, and search filters. Display limits are 100, 300, and 1,000. Marker size reflects publication count. Hover or focus displays the institution name, city, and count. Institution dots do not link out. Selecting a dot filters papers by the exact institutional identifier, intersecting the year, time window, field, topic, and search filters. It replaces a country-only selection. The indicator can be cleared by clicking again or using Clear institution. The map does not claim to display every institution in a small filtered subset, since candidates are selected from the full corpus's leading 1,000.
 
 Normal data processing and builds use the saved snapshot without querying OpenAlex. To intentionally refresh geography, run scripts/fetch_institution_locations.py, then regenerate and validate. The fetch script is a separate network operation.
 
@@ -31,3 +31,17 @@ Normal data processing and builds use the saved snapshot without querying OpenAl
 Run npm ci, npm run data, npm test, npm run build, and npm run test:runtime. Node dependencies are pinned in package-lock.json; Python data preparation uses the standard library. Input checksums identify the exact snapshots. A stale generated dataset fails the checks. The compiled Observable runtime is tested with actual input generators and DOM controls; browser visual review remains separate.
 
 Later multi-source recovery work remains outside the primary dashboard population. This dashboard revision does not silently change manuscript results. Methods documentation is retained here rather than displayed as a dashboard page.
+
+## Time windows and sharing
+
+Annual windows match the selected year exactly. Cumulative windows include all dated retained records through the selected year. All years includes the two records without years; cumulative dated windows exclude them. Playback changes only the time window, retaining other active filters and map selection. Country shading uses a logarithmic color scale whose maximum is the largest country count in the full retained corpus, including unknown dates; it does not rescale during playback. Institution marker sizing remains relative to the active institution counts.
+
+Shared URLs encode filters, comparison groups, and overview institution-overlay settings. They do not encode playback, map pan/zoom, or a position within the scrolling literature cards. A copy-link fallback is available when clipboard access is unavailable.
+
+## Research topics
+
+Topic IDs, names, and subfields come directly from the primary-topic columns in the original publication snapshot. No new topic classification or inference is performed. Each paper has at most one primary topic in this view. Missing topic IDs are explicitly filterable; names can be absent or automated classifications can be imperfect. A topic identifies an OpenAlex research classification, not a verified Galaxy workflow or tool. Topic cards show the leading 12 topics in the active selection.
+
+## Comparisons
+
+Country comparisons use any-author country associations. Institution comparisons use exact affiliated institution IDs and include the full supplied institution label registry, not only the top-1,000 map location pool. Both groups receive the same time, field, topic, and title/DOI filters. Single-place overview filters are intentionally not applied to comparison groups. A shared publication contributes once to each group, with the intersection reported explicitly. Field percentages divide the group's distinct-publication field count by the group's publication total; the table shows the leading 10 fields ranked by the sum of the two group counts. Unclassified fields remain in the denominator. These are descriptive comparisons, with no adjustment for institution size, national output, or metadata coverage. Annual series use the same axes and omit unknown years; totals retain unknown dates where eligible.

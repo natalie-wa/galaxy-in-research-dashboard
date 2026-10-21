@@ -47,6 +47,9 @@ def build():
         works.append(dict(key=key, title=r['display_name'], year=year,
                           doi=normalize_doi(r['doi']), url=r['id'], type=r['type'],
                           field=r['primary_topic.field'] or 'Unclassified',
+                          topic=r['primary_topic.id'].strip(),
+                          topic_name=r['primary_topic.display_name'].strip() or 'Unclassified topic',
+                          subfield=r['primary_topic.subfield'].strip(),
                           countries=values(r['authorships.countries']),
                           institutions=values(r['authorships.institutions.id']),
                           categories=sorted({categories[s] for s in seeds[key]})))

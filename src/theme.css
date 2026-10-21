@@ -49,3 +49,45 @@ body,input,select,button,table,svg text{font-family:var(--sans-serif)!important}
 .institution-marker{cursor:pointer}
 .clear-institution{margin-top:10px;padding:7px 10px;border:1px solid #25537b;border-radius:5px;background:#edf4fa;color:#25537b;font:inherit;cursor:pointer}
 .clear-institution[hidden]{display:none}
+
+/* Controls stay outside the geographic canvas at every screen size. */
+.map-canvas{position:relative}
+.map-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:20px;background:#fff;border-top:1px solid #dce4ee;padding:18px 22px}
+.map-toolbar .country-picker,.map-toolbar .institution-panel,.map-toolbar .map-legend{position:static;margin:0;box-shadow:none;width:auto;max-width:none}
+.map-toolbar .country-picker{flex:0 1 210px}
+.map-toolbar .institution-panel{flex:1 1 330px;border:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
+.map-toolbar .institution-panel select{margin:0;padding:7px;min-width:0}
+.map-toolbar .institution-panel small{grid-column:1/-1}
+.map-toolbar .map-legend{flex:0 1 255px;padding:0}
+.timeline{display:flex;flex-wrap:wrap;align-items:end;gap:18px;padding:20px 24px;background:white;border:1px solid #dfe5ed;border-radius:12px;margin:20px 0}
+.timeline label{display:flex;flex-direction:column;gap:8px;color:#4d5b6e;font-size:15px;font-weight:700;min-width:150px}
+.timeline select{padding:8px;border:1px solid #d7dfe9;border-radius:6px;color:#25537b;background:#f8fafc;font-size:16px}
+.timeline-slider{flex:1;min-width:220px!important}
+.timeline-slider input{width:100%;accent-color:#25537b;height:32px}
+.timeline button,.share-view button{background:#25537b;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:16px}
+.timeline-status{flex-basis:100%;color:#4d5b6e;font-size:15px}
+.share-view{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:18px 0;color:#4d5b6e;font-size:15px}
+.share-view input{width:min(100%,600px);padding:8px;border:1px solid #d7dfe9;border-radius:6px}
+.topic-explorer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 34px}
+.topic-card{display:flex;flex-direction:column;gap:10px;padding:20px;background:white;border:1px solid #dfe5ed;border-left:3px solid #d19e00;border-radius:8px;text-decoration:none}
+.topic-card strong{font-size:17px;color:#25537b;overflow-wrap:anywhere}
+.topic-card span,.topic-note{font-size:15px;color:#4d5b6e}
+.topic-card:hover{border-color:#25537b;background:#f1f6fa}
+.topic-note{grid-column:1/-1;margin:0}
+.comparison-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:22px 0}
+.comparison-card{padding:24px;background:white;border:1px solid #dfe5ed;border-top:4px solid;border-radius:10px}
+.comparison-card h2{font-size:22px;overflow-wrap:anywhere}
+.comparison-card strong{display:block;font-size:38px;color:#25537b;margin-top:14px}
+.comparison-view{margin-bottom:32px;color:#4d5b6e}
+.comparison-view>svg{width:100%;max-width:950px;display:block;margin:20px auto;background:#fff;border:1px solid #dfe5ed;border-radius:10px}
+.comparison-view svg text{font-size:15px;fill:#4d5b6e}
+.comparison-legend{display:flex;gap:24px;flex-wrap:wrap;font-weight:700}
+.comparison-table{overflow-x:auto;margin:20px 0}
+.comparison-view table{width:100%;border-collapse:collapse;background:white;font-size:16px}
+.comparison-view td,.comparison-view th{padding:12px;text-align:left;border-bottom:1px solid #dfe5ed;min-width:100px}
+.comparison-view th{color:#25537b;white-space:normal}
+.comparison-view details{margin-top:18px;overflow-x:auto}.comparison-view summary{cursor:pointer;color:#25537b;font-weight:700;padding:12px 0}
+@media(max-width:800px){.topic-explorer{grid-template-columns:1fr 1fr}.timeline{padding:16px}.map-toolbar{padding:16px}.comparison-cards{grid-template-columns:1fr}.view-tabs{flex-wrap:wrap}}
+@media(max-width:500px){.topic-explorer{grid-template-columns:1fr}.timeline label{width:100%}.map-toolbar .institution-panel{grid-template-columns:1fr}.map-toolbar .map-legend{flex-basis:100%}}
+
+.comparison-table table{max-width:none;display:table}

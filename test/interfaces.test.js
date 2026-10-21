@@ -39,7 +39,7 @@ test('paper carousel moves through results, links to DOI, and handles empty resu
 });
 test('year dropdown and table explicitly use plain year strings',()=>{
  const page=fs.readFileSync(new URL('../src/index.md',import.meta.url),'utf8');
- assert.match(page,/label:'Publication year', format:d=>String\(d\)/);
+ assert.ok(page.includes('timeline(years'));
  assert.match(fs.readFileSync(new URL('../src/papers.md',import.meta.url),'utf8'),/year:d=>d===null\?'—':String\(d\)/);
 });
 
@@ -117,4 +117,13 @@ test('institution dot selects affiliated papers, persists across filters, and cl
  dot.dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Enter',bubbles:true}));
  assert.equal(map.value,'All countries');
  map.remove();
+});
+
+test('map tools live below the canvas and shared zero-result country selections survive',()=>{
+ const map=researchMap(world,[],{initialCountry:'US',colorMax:5000,selectionState:{value:null}});
+ assert.equal(map.value,'US');assert.equal(map.querySelector('[aria-label="Select a country"]').value,'US');
+ assert.equal(map.querySelector('.map-canvas .institution-panel'),null);
+ assert.ok(map.querySelector('.map-toolbar .institution-panel'));
+ assert.ok(map.querySelector('.map-toolbar .map-legend'));
+ assert.match(map.querySelector('.legend-numbers').textContent,/5,000/);
 });
