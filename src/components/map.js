@@ -6,15 +6,17 @@ export function featureCode(feature) {
   const p = feature.properties;
   return [p.ISO_A2_EH,p.ISO_A2,p.WB_A2].find(d=>d && /^[A-Z]{2}$/.test(d)) || (p.ADM0_A3 === 'KOS' ? 'XK' : null);
 }
-export function researchMap(world, countryCounts, {width=1200,institutions=[],initialCountry='All countries',initialInstitution='All institutions',selectionState}={}) {
+export function researchMap(world, countryCounts, {width=1200,institutions=[],initialCountry='All countries',initialInstitution='All institutions',selectionState,colorMax}={}) {
   const root=document.createElement('div');root.className='research-map';root.value='All countries';
   const totals=new Map(countryCounts.map(d=>[d.label,d.publications]));
-  root.value=selectionState?.value ?? (initialInstitution!=='All institutions'?'institution:'+initialInstitution:totals.has(initialCountry)?initialCountry:'All countries');
+  root.value=selectionState?.value ?? (initialInstitution!=='All institutions'?'institution:'+initialInstitution:world.features.some(f=>featureCode(f)===initialCountry)?initialCountry:'All countries');
+  overlayEnabled=selectionState?.overlayEnabled ?? overlayEnabled;
+  overlayLimit=selectionState?.overlayLimit ?? overlayLimit;
   if(root.value.startsWith('institution:'))overlayEnabled=true;
   const selectedCountry=()=>root.value.startsWith('institution:')?'All countries':root.value;
   const selectedInstitution=()=>root.value.startsWith('institution:')?root.value.slice(12):null;
   const emitSelection=()=>{if(selectionState)selectionState.value=root.value;root.dispatchEvent(new Event('input',{bubbles:true}));};
-  const max=d3.max(countryCounts,d=>d.publications) || 1;
+  const max=colorMax || d3.max(countryCounts,d=>d.publications) || 1;
   const color=d3.scaleSequentialLog([1,Math.max(2,max)],d3.interpolateRgbBasis(['#dce8f2','#a2bdd6','#527ea4','#25537b','#2c3143']));
   const height=580;
   const features=world.features.filter(d=>featureCode(d)!=='AQ');
@@ -47,8 +49,9 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   let markers, clearInstitutionButton;
   function paint(){paths.attr('stroke',d=>featureCode(d)===selectedCountry()?'#d19e00':'#fff').attr('stroke-width',d=>featureCode(d)===selectedCountry()?2.4:.55).attr('opacity',d=>selectedCountry()==='All countries'||featureCode(d)===selectedCountry()?1:.55).attr('aria-pressed',d=>String(featureCode(d)===selectedCountry()));markers?.attr('opacity',d=>selectedInstitution()?d.id===selectedInstitution()?1:.35:selectedCountry()==='All countries'||d.country_code===selectedCountry()?1:.3).attr('fill',d=>d.id===selectedInstitution()?'#25537b':'#ffd700').attr('stroke',d=>d.id===selectedInstitution()?'#ffd700':'#fff').attr('stroke-width',d=>d.id===selectedInstitution()?2:.8).attr('aria-pressed',d=>String(d.id===selectedInstitution()));if(clearInstitutionButton)clearInstitutionButton.hidden=!selectedInstitution();}
   function select(f){const code=featureCode(f);if(!totals.has(code))return;root.value=root.value===code?'All countries':code;paint();writeReadout(selectedCountry()==='All countries'?null:f);emitSelection();}
-  const zoom=d3.zoom().extent([[0,0],[width,height]]).scaleExtent([1,8]).translateExtent([[0,0],[width,height]]).filter(event=>event.type!=='wheel' && (!event.button)).on('zoom',event=>layer.attr('transform',event.transform));
+  const zoom=d3.zoom().extent([[0,0],[width,height]]).scaleExtent([1,8]).translateExtent([[0,0],[width,height]]).filter(event=>event.type!=='wheel' && (!event.button)).on('zoom',event=>{layer.attr('transform',event.transform);if(selectionState)selectionState.transform=event.transform;});
   svg.call(zoom).on('dblclick.zoom',null);
+  if(selectionState?.transform)svg.call(zoom.transform,selectionState.transform);
   const controls=document.createElement('div');controls.className='map-controls';
   for(const [text,title,fn] of [['+','Zoom in',()=>svg.transition().duration(200).call(zoom.scaleBy,1.5)],['−','Zoom out',()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.5)],['↺','Reset map',()=>{svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);root.value='All countries';paint();writeReadout(null);emitSelection();}]]){const b=document.createElement('button');b.type='button';b.textContent=text;b.title=title;b.setAttribute('aria-label',title);b.onclick=fn;controls.append(b);}
   const legend=document.createElement('div');legend.className='map-legend';
@@ -62,7 +65,8 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   const picker=document.createElement('label');picker.className='country-picker';
   const dropdown=document.createElement('select');dropdown.setAttribute('aria-label','Select a country');
   const names=new Intl.DisplayNames(['en'],{type:'region'});
-  for(const code of ['All countries',...countryCounts.map(d=>d.label).sort((a,b)=>names.of(a).localeCompare(names.of(b)))]){const option=document.createElement('option');option.value=code;option.textContent=code==='All countries'?'All countries':names.of(code);dropdown.append(option);}
+  const countryOptions=[...new Set([...countryCounts.map(d=>d.label),...(selectedCountry()==='All countries'?[]:[selectedCountry()])])].sort((a,b)=>names.of(a).localeCompare(names.of(b)));
+  for(const code of ['All countries',...countryOptions]){const option=document.createElement('option');option.value=code;option.textContent=code==='All countries'?'All countries':names.of(code);dropdown.append(option);}
   dropdown.value=selectedCountry();
   dropdown.onchange=()=>{root.value=dropdown.value;paint();writeReadout(features.find(d=>featureCode(d)===selectedCountry()));emitSelection();};
   root.addEventListener('input',event=>{if(event.target===root)dropdown.value=selectedCountry();});
@@ -99,8 +103,12 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   function selectInstitution(d){root.value=selectedInstitution()===d.id?'All countries':'institution:'+d.id;paint();emitSelection();}
   clearInstitutionButton=document.createElement('button');clearInstitutionButton.type='button';clearInstitutionButton.className='clear-institution';clearInstitutionButton.textContent='Clear institution ×';clearInstitutionButton.setAttribute('aria-label','Clear institution filter');
   clearInstitutionButton.onclick=()=>{root.value='All countries';paint();writeReadout(null);emitSelection();};
-  checkbox.onchange=()=>{overlayEnabled=checkbox.checked;renderInstitutions();};
-  limit.onchange=()=>{overlayLimit=Number(limit.value);renderInstitutions();};
+  checkbox.onchange=()=>{overlayEnabled=checkbox.checked;if(selectionState)selectionState.overlayEnabled=overlayEnabled;renderInstitutions();};
+  limit.onchange=()=>{overlayLimit=Number(limit.value);if(selectionState)selectionState.overlayLimit=overlayLimit;renderInstitutions();};
   panel.append(toggleLabel,limit,status,description,clearInstitutionButton);renderInstitutions();
-  root.append(svg.node(),label,controls,legend,picker,panel);return root;
+  const canvas=document.createElement('div');canvas.className='map-canvas';
+  canvas.append(svg.node(),label,controls);
+  const toolbar=document.createElement('div');toolbar.className='map-toolbar';
+  toolbar.append(picker,panel,legend);
+  root.append(canvas,toolbar);return root;
 }

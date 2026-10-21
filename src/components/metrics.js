@@ -1,9 +1,10 @@
-export function filterWorks(works, {year = 'All years', country = 'All countries', field = 'All fields', category = 'All categories', query = '', institution = 'All institutions'} = {}) {
+export function filterWorks(works, {year = 'All years', country = 'All countries', field = 'All fields', category = 'All categories', query = '', institution = 'All institutions', period = 'year', topic = 'All topics'} = {}) {
   const needle = query.trim().toLowerCase();
-  return works.filter(d => (year === 'All years' || (year === 'Missing year' ? d.year === null : d.year === Number(year))) &&
+  return works.filter(d => (year === 'All years' || (year === 'Missing year' ? d.year === null : (period === 'cumulative' ? d.year !== null && d.year <= Number(year) : d.year === Number(year)))) &&
     (country === 'All countries' || d.countries.includes(country)) &&
     (institution === 'All institutions' || d.institutions.includes(institution)) &&
     (field === 'All fields' || d.field === field) &&
+    (topic === 'All topics' || (topic === 'Missing topic' ? !d.topic : d.topic === topic)) &&
     (category === 'All categories' || d.categories.includes(category)) &&
     (!needle || `${d.title} ${d.doi}`.toLowerCase().includes(needle)));
 }

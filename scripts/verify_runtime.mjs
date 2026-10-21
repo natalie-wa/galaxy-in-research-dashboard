@@ -11,6 +11,7 @@ const Inputs=await import(req.resolve('@observablehq/inputs'));
 const {html:htl}=await import(req.resolve('htl'));
 const {input}=await import(root+'/node_modules/@observablehq/framework/dist/client/stdlib/generators/input.js');
 const metrics=await import(root+'/src/components/metrics.js');
+const exploration=await import(root+'/src/components/exploration.js');
 let source=fs.readFileSync(root+'/src/components/map.js','utf8').replace("'npm:d3@7.9.0'",JSON.stringify(new URL('file://'+root+'/node_modules/d3/src/index.js').href));
 const {researchMap}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
 const corpus=JSON.parse(fs.readFileSync(root+'/src/data/corpus.json'));
@@ -19,12 +20,12 @@ const html=fs.readFileSync(root+'/dist/index.html','utf8');let script=html.match
 script=script.replace(/^import .*;$/gm,'');
 const cells=[];new Function('define','registerFile',script)(cell=>cells.push(cell),()=>{});
 const runtime=new Runtime();const main=runtime.module();
-for(const [key,val] of Object.entries({...metrics,Inputs,html:htl,display:()=>{},Generators:{input},researchMap,world,mapState:{value:null},works:corpus.works,corpus,params:new URLSearchParams(),countryName:code=>code,years:['All years',2025],fields:['All fields'],categories:['All categories']}))main.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...metrics,...exploration,Inputs,html:htl,display:()=>{},Generators:{input},researchMap,world,mapState:{value:null,overlayEnabled:false,overlayLimit:300},works:corpus.works,corpus,params:new URLSearchParams(),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories']}))main.variable().define(key,[],()=>val);
 for(const cell of cells){if(!cell.outputs?.length||cell.outputs.includes('works')||cell.outputs.includes('paperTable')||cell.outputs.includes('temporal'))continue;
  main.variable().define('cell '+cell.id,cell.inputs,cell.body);for(const o of cell.outputs)main.variable().define(o,['cell '+cell.id],exports=>exports[o]);}
 main.variable({fulfilled:()=>{},rejected:error=>console.error(error)}).define('watch',['selected'],d=>d);
 let selected=await main.value('selected');if(selected.length!==14469)throw Error('Initial population '+selected.length);
-const yearInput=await main.value('yearInput');yearInput.querySelector('select').selectedIndex=1;yearInput.querySelector('select').dispatchEvent(new Event('input',{bubbles:true}));await new Promise(resolve=>setTimeout(resolve,30));
+const yearInput=await main.value('yearInput');yearInput.querySelector('select').value='2025';yearInput.querySelector('select').dispatchEvent(new Event('change',{bubbles:true}));await new Promise(resolve=>setTimeout(resolve,30));
 selected=await main.value('selected');if(selected.length!==1389)throw Error('Year filter '+selected.length);
 const map=await main.value('map');const selector=map.querySelector('select');selector.value='US';selector.dispatchEvent(new Event('change'));await new Promise(resolve=>setTimeout(resolve,30));
 selected=await main.value('selected');if(!selected.length || !selected.every(d=>d.year===2025&&d.countries.includes('US')))throw Error('Map filter failed');
@@ -41,12 +42,12 @@ if(!universityPapers.length||universityPapers.length!==expectedUniversity.length
 const institutionHref=await main.value('explorerHref');
 if(new URL(institutionHref,'https://example.org/').searchParams.get('institution')!==chosenId)throw Error('Institution filter was lost from explorer link');
 console.log('PASS institution dot: '+universityPapers.length+' papers from the selected institution in 2025.');
-console.log('PASS compiled Observable runtime: 14,469 initial; 1,389 in 2025; '+selected.length+' US-associated papers in 2025.');runtime.dispose();
+console.log('PASS compiled Observable runtime: 14,469 initial; 1,389 in 2025; '+selected.length+' US-associated papers in 2025.');
 
 // Verify the separate paper view accepts the same query-parameter selection.
 const runtime2=new Runtime();const paperMain=runtime2.module();
 const countryOptions=['All countries',...new Set(corpus.works.flatMap(d=>d.countries))];
-for(const [key,val] of Object.entries({...metrics,Inputs,html:htl,display:()=>{},Generators:{input},works:corpus.works,corpus,params:new URLSearchParams(new URL(institutionHref,'https://example.org/').search),countryName:code=>code,years:['All years',2025],fields:['All fields'],categories:['All categories'],countries:countryOptions,institutionOptions:['All institutions',...corpus.institution_locations.map(d=>d.id)],institutionName:id=>id}))paperMain.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...metrics,...exploration,Inputs,html:htl,display:()=>{},Generators:{input},works:corpus.works,corpus,params:new URLSearchParams(new URL(institutionHref,'https://example.org/').search),countryName:code=>code,years:['All years',2025],fields:['All fields'],topics:['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))],topicNames:new Map(corpus.works.map(d=>[d.topic,d.topic_name])),fixedColorMax:Math.max(...metrics.counts(corpus.works,'countries').map(d=>d.publications)),invalidation:undefined,categories:['All categories'],countries:countryOptions,institutionOptions:['All institutions',...corpus.institution_locations.map(d=>d.id)],institutionName:id=>id}))paperMain.variable().define(key,[],()=>val);
 const paperHtml=fs.readFileSync(root+'/dist/papers.html','utf8');
 let paperScript=paperHtml.match(/<script type="module">([\s\S]*?)<\/script>/)[1].replace(/^import .*;$/gm,'');
 const paperCells=[];new Function('define','registerFile',paperScript)(cell=>paperCells.push(cell),()=>{});
@@ -59,4 +60,32 @@ if(new URL(back,'https://example.org/repository/papers.html').pathname!=='/repos
 const backParams=new URL(back,'https://example.org/').searchParams;
 if(backParams.get('year')!=='2025'||backParams.get('institution')!==chosenId)throw Error('Paper tab return link lost filters');
 console.log('PASS paper tab: institution/year filters preserved in both navigation directions.');
-runtime2.dispose();
+const timeMode=yearInput.querySelector('[aria-label="Time window"]');
+timeMode.value='cumulative';timeMode.dispatchEvent(new Event('change'));
+const cumulative=await main.value('selected');
+const expectedCumulative=corpus.works.filter(w=>w.year!==null&&w.year<=2025&&w.institutions.includes(chosenId));
+if(cumulative.length!==expectedCumulative.length)throw Error('Cumulative time filter mismatch');
+const topicInput=await main.value('topicInput');
+const topicsForTest=['All topics','Missing topic',...new Set(corpus.works.map(d=>d.topic).filter(Boolean))];
+const topicId=expectedCumulative.find(w=>w.topic)?.topic;
+topicInput.querySelector('select').selectedIndex=[...topicsForTest].indexOf(topicId);
+topicInput.querySelector('select').dispatchEvent(new Event('input',{bubbles:true}));
+const topical=await main.value('selected');
+if(topical.length!==expectedCumulative.filter(w=>w.topic===topicId).length)throw Error('Topic filter mismatch');
+const topicLink=await main.value('explorerHref');
+const topicParams=new URL(topicLink,'https://example.org/repository/').searchParams;
+if(topicParams.get('topic')!==topicId||topicParams.get('period')!=='cumulative')throw Error('New filters lost from link');
+console.log('PASS cumulative timeline and topic filters in compiled overview; navigation preserves both.');
+runtime2.dispose();runtime.dispose();
+
+const runtime3=new Runtime();const compareMain=runtime3.module();
+const compareNames=new Map(corpus.works.map(d=>[d.topic,d.topic_name]));
+for(const [key,val] of Object.entries({...exploration,Inputs,html:htl,display:()=>{},Generators:{input},invalidation:undefined,works:corpus.works,corpus,params:new URLSearchParams('kind=country&left=US&right=DE&year=2025'),years:[2006,2025,2026],fields:['All fields'],topics:['All topics'],topicNames:compareNames,countries:countryOptions.filter(d=>d!=='All countries'),countryName:code=>code,institutionName:id=>id}))compareMain.variable().define(key,[],()=>val);
+const compareHtml=fs.readFileSync(root+'/dist/compare.html','utf8');
+const compareScript=compareHtml.match(/<script type="module">([\s\S]*?)<\/script>/)[1].replace(/^import .*;$/gm,'');
+const compareCells=[];new Function('define','registerFile',compareScript)(cell=>compareCells.push(cell),()=>{});
+for(const cell of compareCells){if(!cell.outputs?.length||cell.outputs.includes('works'))continue;compareMain.variable().define('cell '+cell.id,cell.inputs,cell.body);for(const o of cell.outputs)compareMain.variable().define(o,['cell '+cell.id],exports=>exports[o]);}
+const comparison=await compareMain.value('data');
+if(comparison.a.length!==corpus.works.filter(w=>w.year===2025&&w.countries.includes('US')).length)throw Error('Comparison first count mismatch');
+if(comparison.b.length!==corpus.works.filter(w=>w.year===2025&&w.countries.includes('DE')).length)throw Error('Comparison second count mismatch');
+console.log('PASS compiled comparison page: both groups reconcile with source filters.');runtime3.dispose();
