@@ -45,3 +45,7 @@ Topic IDs, names, and subfields come directly from the primary-topic columns in 
 ## Comparisons
 
 Country comparisons use any-author country associations. Institution comparisons use exact affiliated institution IDs and include the full supplied institution label registry, not only the top-1,000 map location pool. Both groups receive the same time, field, topic, and title/DOI filters. Single-place overview filters are intentionally not applied to comparison groups. A shared publication contributes once to each group, with the intersection reported explicitly. Field percentages divide the group's distinct-publication field count by the group's publication total; the table shows the leading 10 fields ranked by the sum of the two group counts. Unclassified fields remain in the denominator. These are descriptive comparisons, with no adjustment for institution size, national output, or metadata coverage. Annual series use the same axes and omit unknown years; totals retain unknown dates where eligible.
+
+## Reset controls
+
+The overview's Reset map & filters button returns the time window to All years / That year, clears research field, topic, title/DOI search, country and institution selections, stops timeline playback, hides institution markers, restores the default overlay limit and map transform, and clears filter parameters from the URL. It updates the view in place without navigating away. The map's smaller Reset map view icon changes the map transform and geographic selection only.

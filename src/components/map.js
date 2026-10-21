@@ -53,7 +53,7 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   svg.call(zoom).on('dblclick.zoom',null);
   if(selectionState?.transform)svg.call(zoom.transform,selectionState.transform);
   const controls=document.createElement('div');controls.className='map-controls';
-  for(const [text,title,fn] of [['+','Zoom in',()=>svg.transition().duration(200).call(zoom.scaleBy,1.5)],['−','Zoom out',()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.5)],['↺','Reset map',()=>{svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);root.value='All countries';paint();writeReadout(null);emitSelection();}]]){const b=document.createElement('button');b.type='button';b.textContent=text;b.title=title;b.setAttribute('aria-label',title);b.onclick=fn;controls.append(b);}
+  for(const [text,title,fn] of [['+','Zoom in',()=>svg.transition().duration(200).call(zoom.scaleBy,1.5)],['−','Zoom out',()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.5)],['↺','Reset map view',()=>{svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);root.value='All countries';paint();writeReadout(null);emitSelection();}]]){const b=document.createElement('button');b.type='button';b.textContent=text;b.title=title;b.setAttribute('aria-label',title);b.onclick=fn;controls.append(b);}
   const legend=document.createElement('div');legend.className='map-legend';
   const caption=document.createElement('span');caption.textContent='Citing publications';
   const ramp=document.createElement('div');ramp.className='legend-ramp';
@@ -112,5 +112,11 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   canvas.append(svg.node(),label,controls);
   const toolbar=document.createElement('div');toolbar.className='map-toolbar';
   toolbar.append(picker,panel,legend);
+  root.resetAll=()=>{
+    root.value='All countries';overlayEnabled=false;overlayLimit=300;
+    if(selectionState){selectionState.value=root.value;selectionState.overlayEnabled=false;selectionState.overlayLimit=300;selectionState.transform=d3.zoomIdentity;}
+    checkbox.checked=false;limit.value='300';svg.interrupt();svg.call(zoom.transform,d3.zoomIdentity);
+    renderInstitutions();paint();writeReadout(null);dropdown.value='All countries';emitSelection();
+  };
   root.append(canvas,toolbar);return root;
 }

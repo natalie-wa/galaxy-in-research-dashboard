@@ -24,7 +24,7 @@ test('timeline keeps plain years, synchronizes slider and select, and cleans up 
  assert.ok([...y.options].every(o=>!o.textContent.includes(',')));
  s.value='2025';s.dispatchEvent(new Event('input',{bubbles:true}));assert.deepEqual(t.value,{year:2025,period:'year'});assert.equal(y.value,'2025');
  const mode=t.querySelector('[aria-label="Time window"]');mode.value='cumulative';mode.dispatchEvent(new Event('change'));assert.equal(t.value.period,'cumulative');
- t.querySelector('button').click();await new Promise(r=>setTimeout(r,40));assert.equal(t.value.year,2026);assert.equal(t.querySelector('button').getAttribute('aria-pressed'),'false');t.dispose();
+ t.querySelector('button').click();await new Promise(r=>setTimeout(r,40));assert.equal(t.value.year,2026);assert.equal(t.querySelector('button').getAttribute('aria-pressed'),'false');t.reset();assert.deepEqual(t.value,{year:'All years',period:'year'});t.dispose();
  const t2=timeline([2006,2007,2026],{interval:10});t2.querySelector('button').click();t2.dispose();const before=t2.value.year;await new Promise(r=>setTimeout(r,30));assert.equal(t2.value.year,before);
 });
 test('shared links preserve all meaningful filters and encoded topic names without credentials or autoplay',()=>{

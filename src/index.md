@@ -9,7 +9,7 @@ import {filterWorks, counts, annual} from './components/metrics.js';
 import {researchMap} from './components/map.js';
 import {paperCarousel} from './components/papers.js';
 import {disciplineChart} from './components/disciplines.js';
-import {timeline, viewHref, shareView, topicExplorer} from './components/exploration.js';
+import {timeline, viewHref, shareView, topicExplorer, resetOverview} from './components/exploration.js';
 const corpus = await FileAttachment('./data/corpus.json').json();
 const world = await FileAttachment('./assets/world.geojson').json();
 const works = corpus.works;
@@ -78,11 +78,6 @@ const currentPlace = institution!=='All institutions'?(corpus.institution_locati
 ```
 
 
-<div class="section-top overview-map-heading" id="world"><div><h2>Research without borders</h2><p>Select a country or institution dot to discover its publications. Zoom in and drag to explore.</p></div><span class="section-label">${allCountryCounts.length} countries · ${base.length.toLocaleString()} publications</span></div>
-
-<div class="map-shell">${map}</div>
-<p class="map-caption">Publications by author country. The color scale stays fixed across years and filters. Select a country or institution to filter the views below.</p>
-
 <div class="stats overview-stats">
 <div class="stat"><strong>${selected.length.toLocaleString()}</strong><span>Citing publications</span></div>
 <div class="stat"><strong>${countryCounts.length.toLocaleString()}</strong><span>Countries represented</span></div>
@@ -90,14 +85,24 @@ const currentPlace = institution!=='All institutions'?(corpus.institution_locati
 <div class="stat"><strong>${new Set(selected.filter(d=>d.field!=='Unclassified').map(d=>d.field)).size}</strong><span>Research fields</span></div>
 </div>
 
-<details class="overview-filters">
-<summary><strong>Filter publications &amp; explore the timeline</strong><span>${year === 'All years' ? 'All years' : year === 'Missing year' ? 'Unknown years' : period === 'cumulative' ? '2006–'+year : String(year)} · ${field} · ${topicNames.get(topic)||topic}${query ? ' · Search active' : ''}</span></summary>
+<div class="section-top overview-map-heading" id="world"><div><h2>Research without borders</h2><p>Select a country or institution dot to discover its publications. Zoom in and drag to explore.</p></div><span class="section-label">${allCountryCounts.length} countries · ${base.length.toLocaleString()} publications</span></div>
 
+<div class="map-shell integrated-map-panel">
+${map}
+<div class="map-refinement">
+<div class="refinement-heading"><h3>Filter publications &amp; explore the timeline</h3>${resetButton}</div>
 <div class="filter-bar"><div>${fieldInput}</div><div>${topicInput}</div><div>${searchInput}</div></div>
-
 ${yearInput}
+</div>
+</div>
+<p class="map-caption">Publications by author country. The color scale stays fixed across years and filters. Select a country or institution to filter the views below.</p>
 
-</details>
+
+
+
+```js
+const resetButton=resetOverview({timeline:yearInput,fieldInput,topicInput,searchInput,map});
+```
 
 ```js
 display(shareView(()=>viewHref('./',{...state,overlay:String(mapState.overlayEnabled),limit:mapState.overlayLimit})));
