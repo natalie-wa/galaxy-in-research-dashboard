@@ -59,6 +59,7 @@ export function timeline(years,{year='All years',period='year',invalidate,interv
     play.textContent='Pause timeline';play.setAttribute('aria-pressed','true');timer=setInterval(advance,interval);
   };
   const visibility=()=>{if(document.hidden)pause();};document.addEventListener('visibilitychange',visibility);
+  root.reset=()=>{pause();select.value='All years';mode.value='year';emit();};
   root.dispose=()=>{pause();document.removeEventListener('visibilitychange',visibility);};invalidate?.then(root.dispose);
   root.append(label,modeLabel,sliderLabel,play,status);update();return root;
 }
@@ -124,4 +125,17 @@ export function comparisonView(data,{leftName,rightName}) {
   const wrap=document.createElement('div');wrap.className='comparison-table';wrap.append(table(['Primary field',leftName,rightName],fields.map(f=>[f,fmt(a.get(f)||0,data.a.length),fmt(b.get(f)||0,data.b.length)])));root.append(wrap);
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Annual counts as a table';details.append(summary,table(['Year',leftName,rightName],data.annualA.map((r,i)=>[String(r.year),r.publications.toLocaleString(),data.annualB[i].publications.toLocaleString()])));root.append(details);
   return root;
+}
+
+export function resetOverview({timeline,fieldInput,topicInput,searchInput,map}) {
+  const button=document.createElement('button');button.type='button';button.className='reset-overview';button.textContent='Reset map & filters';
+  button.onclick=()=>{
+    timeline.reset();
+    for(const form of [fieldInput,topicInput]){const select=form.querySelector('select');select.selectedIndex=0;select.dispatchEvent(new Event('input',{bubbles:true}));}
+    const search=searchInput.querySelector('input');search.value='';search.dispatchEvent(new Event('input',{bubbles:true}));
+    map.resetAll();
+    const url=new URL(window.location.href);url.search='';url.hash='';window.history.replaceState(null,'',url.href);
+    button.textContent='Reset complete';setTimeout(()=>{button.textContent='Reset map & filters';},1500);
+  };
+  return button;
 }

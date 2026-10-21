@@ -100,14 +100,6 @@ body,input,select,button,table,svg text{font-family:var(--sans-serif)!important}
 .overview-stats{margin:18px 0}
 .overview-stats .stat{padding:16px 22px}
 .overview-stats .stat strong{font-size:1.85rem}
-.overview-filters{background:#fff;border:1px solid #dfe5ed;border-radius:10px;margin:18px 0;overflow:hidden}
-.overview-filters summary{cursor:pointer;padding:16px 20px;color:#25537b;font-size:16px}
-.overview-filters summary strong{font-weight:700}
-.overview-filters summary span{display:block;margin:5px 0 0 18px;color:#4d5b6e;font-size:14px;overflow-wrap:anywhere}
-.overview-filters[open] summary{border-bottom:1px solid #dfe5ed}
-.overview-filters .filter-bar,.overview-filters .timeline{margin:0;padding:18px 20px;border:0;border-radius:0;box-shadow:none}
-.overview-filters .timeline{border-top:1px solid #edf0f4}
-.overview-filters summary:focus-visible{outline:3px solid #d19e00;outline-offset:-4px}
 .map-toolbar{display:grid;grid-template-columns:minmax(160px,.9fr) minmax(230px,1.2fr) minmax(200px,1fr);align-items:start;gap:24px;padding:16px 20px}
 .map-toolbar .country-picker{display:flex;flex-direction:column;gap:8px;min-width:0}
 .map-tool-label{font-weight:700;color:#25537b;font-size:14px;line-height:20px}
@@ -124,3 +116,18 @@ body,input,select,button,table,svg text{font-family:var(--sans-serif)!important}
 .map-toolbar .map-legend small{font-size:14px;line-height:1.35;display:block;margin-top:5px}
 @media(max-width:900px){.map-toolbar{grid-template-columns:1fr 1.2fr;gap:16px 22px}.map-toolbar .map-legend{grid-column:1/-1;justify-self:start;max-width:330px}.overview-hero{display:block}.overview-hero .snapshot{margin-top:12px}}
 @media(max-width:540px){.map-toolbar{grid-template-columns:1fr;gap:16px;padding:16px}.map-toolbar .map-legend{grid-column:auto;max-width:none}.overview-hero{padding-top:20px}.overview-hero h1{font-size:2.2rem}.overview-hero .eyebrow{font-size:12px}.overview-map-heading{flex-direction:column;gap:8px}.overview-map-heading .section-label{font-size:14px}.overview-stats .stat{padding:14px}.overview-filters summary{padding:14px 16px}.overview-filters .timeline,.overview-filters .filter-bar{padding:16px}}
+
+/* Refinement controls are a visible part of the map, directly below its toolbar. */
+.map-refinement{background:#fff;border-top:1px solid #dce4ee;padding:16px 20px}
+.refinement-heading{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.refinement-heading h3{font-size:17px;margin:0;color:#25537b}
+.reset-overview{flex-shrink:0;border:1px solid #25537b;background:#edf4fa;color:#25537b;border-radius:6px;padding:9px 14px;font-size:15px;font-weight:700}
+.reset-overview:hover{background:#25537b;color:white}
+.map-refinement .filter-bar,.map-refinement .timeline{margin:0;padding:14px 0 0;border:0;border-radius:0;box-shadow:none;gap:14px}
+.map-refinement .filter-bar form label{white-space:nowrap;display:block}
+.map-refinement .timeline label{min-width:130px;font-size:14px;gap:5px}
+.map-refinement .timeline-slider{min-width:180px!important}
+.map-refinement .timeline-status{flex-basis:auto;margin-left:auto;font-size:14px;align-self:center}
+.integrated-map-panel .world-svg{height:clamp(260px,46vh,480px);min-height:260px}
+@media(min-width:1000px){.overview-hero{padding-top:18px;padding-bottom:8px}.overview-hero h1{font-size:2.5rem}.overview-map-heading{margin-top:14px}.overview-stats{margin:12px 0}.overview-stats .stat{padding:12px 22px}}
+@media(max-width:600px){.map-refinement{padding:16px}.refinement-heading{align-items:start;flex-direction:column;gap:10px}.map-refinement .timeline-status{margin-left:0;flex-basis:100%}.map-refinement .filter-bar form label{white-space:normal}}

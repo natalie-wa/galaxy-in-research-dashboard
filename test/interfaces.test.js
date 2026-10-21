@@ -127,3 +127,16 @@ test('map tools live below the canvas and shared zero-result country selections 
  assert.ok(map.querySelector('.map-toolbar .map-legend'));
  assert.match(map.querySelector('.legend-numbers').textContent,/5,000/);
 });
+
+test('reset all clears institution selection, markers, and persistent map state',()=>{
+ const selectionState={value:'institution:'+corpus.institution_locations[0].id,overlayEnabled:true,overlayLimit:100};
+ const locations=corpus.institution_locations.slice(0,3).map(d=>({...d,publications:d.snapshot_publications}));
+ const map=researchMap(world,[{label:'US',publications:20}],{institutions:locations,selectionState});
+ assert.ok(map.querySelectorAll('.institution-marker').length>0);
+ map.resetAll();
+ assert.equal(map.value,'All countries');assert.equal(selectionState.value,'All countries');
+ assert.equal(selectionState.overlayEnabled,false);assert.equal(selectionState.overlayLimit,300);
+ assert.equal(map.querySelectorAll('.institution-marker').length,0);
+ assert.equal(map.querySelector('[aria-label="Show institutions"]').checked,false);
+ assert.equal(map.querySelector('[aria-label="Select a country"]').value,'All countries');
+});
