@@ -55,3 +55,16 @@ test('generated topics and counts are preserved in the reproducible corpus',()=>
  const corpus=JSON.parse(fs.readFileSync(new URL('../src/data/corpus.json',import.meta.url)));
  assert.equal(corpus.works.length,14469);assert.ok(corpus.works.every(w=>typeof w.topic==='string'&&typeof w.topic_name==='string'));
 });
+
+test('comparison chart switch shows one view, retains selection, and shares its state',()=>{
+ const d=comparisonData(works,{left:'US',right:'DE'}),selectionState={view:'trends'};
+ const root=comparisonView(d,{leftName:'US',rightName:'DE',selectionState});
+ assert.equal(root.querySelector('.compare-trends').hidden,false);
+ assert.equal(root.querySelector('.compare-fields').hidden,true);
+ [...root.querySelectorAll('.compare-switcher button')].find(b=>b.textContent==='Research fields').click();
+ assert.equal(root.value,'fields');assert.equal(selectionState.view,'fields');
+ assert.equal(root.querySelector('.compare-trends').hidden,true);assert.equal(root.querySelector('.compare-fields').hidden,false);
+ const rebuilt=comparisonView(d,{leftName:'US',rightName:'DE',selectionState});assert.equal(rebuilt.value,'fields');
+ assert.equal(rebuilt.querySelector('.compare-exact').open,false);
+ assert.equal(new URL(viewHref('./compare.html',{view:'fields'}),'https://example.org/').searchParams.get('view'),'fields');
+});

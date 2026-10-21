@@ -49,3 +49,7 @@ Country comparisons use any-author country associations. Institution comparisons
 ## Reset controls
 
 The overview's Reset map & filters button returns the time window to All years / That year, clears research field, topic, title/DOI search, country and institution selections, stops timeline playback, hides institution markers, restores the default overlay limit and map transform, and clears filter parameters from the URL. It updates the view in place without navigating away. The map's smaller Reset map view icon changes the map transform and geographic selection only.
+
+## Compact comparison display
+
+The comparison workspace presents one chart at a time. Publication trends use annual counts on common axes. Research fields displays the leading six fields ranked by combined group count, with bars on a common 0–100% scale and exact counts and within-group percentages. Expand View exact counts for annual values or the leading ten field rows in the selected chart mode. Additional filters are visible under Refine comparison, with the active selection summarized when collapsed. The chart mode is retained across filter changes and included in shared comparison URLs.

@@ -80,7 +80,7 @@ runtime2.dispose();runtime.dispose();
 
 const runtime3=new Runtime();const compareMain=runtime3.module();
 const compareNames=new Map(corpus.works.map(d=>[d.topic,d.topic_name]));
-for(const [key,val] of Object.entries({...exploration,Inputs,html:htl,display:()=>{},Generators:{input},invalidation:undefined,works:corpus.works,corpus,params:new URLSearchParams('kind=country&left=US&right=DE&year=2025'),years:[2006,2025,2026],fields:['All fields'],topics:['All topics'],topicNames:compareNames,countries:countryOptions.filter(d=>d!=='All countries'),countryName:code=>code,institutionName:id=>id}))compareMain.variable().define(key,[],()=>val);
+for(const [key,val] of Object.entries({...exploration,Inputs,html:htl,display:()=>{},Generators:{input},comparisonState:{view:'trends'},invalidation:undefined,works:corpus.works,corpus,params:new URLSearchParams('kind=country&left=US&right=DE&year=2025'),years:[2006,2025,2026],fields:['All fields'],topics:['All topics'],topicNames:compareNames,countries:countryOptions.filter(d=>d!=='All countries'),countryName:code=>code,institutionName:id=>id}))compareMain.variable().define(key,[],()=>val);
 const compareHtml=fs.readFileSync(root+'/dist/compare.html','utf8');
 const compareScript=compareHtml.match(/<script type="module">([\s\S]*?)<\/script>/)[1].replace(/^import .*;$/gm,'');
 const compareCells=[];new Function('define','registerFile',compareScript)(cell=>compareCells.push(cell),()=>{});
@@ -88,4 +88,6 @@ for(const cell of compareCells){if(!cell.outputs?.length||cell.outputs.includes(
 const comparison=await compareMain.value('data');
 if(comparison.a.length!==corpus.works.filter(w=>w.year===2025&&w.countries.includes('US')).length)throw Error('Comparison first count mismatch');
 if(comparison.b.length!==corpus.works.filter(w=>w.year===2025&&w.countries.includes('DE')).length)throw Error('Comparison second count mismatch');
-console.log('PASS compiled comparison page: both groups reconcile with source filters.');runtime3.dispose();
+const renderedComparison=await compareMain.value('comparison');renderedComparison.querySelectorAll('.compare-switcher button')[1].click();
+const comparedState=await compareMain.value('state');if(comparedState.view!=='fields')throw Error('Comparison mode missing from shared state');
+console.log('PASS compiled comparison page: both groups reconcile; chart selection retained in shared state.');runtime3.dispose();

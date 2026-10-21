@@ -1,7 +1,7 @@
 import {annual, counts, filterWorks} from './metrics.js';
 
 const defaults={year:'All years',period:'year',field:'All fields',topic:'All topics',query:'',country:'All countries',institution:'All institutions'};
-const keys=[...Object.keys(defaults),'kind','left','right','overlay','limit'];
+const keys=[...Object.keys(defaults),'kind','left','right','overlay','limit','view'];
 export function viewHref(page, state={}) {
   const params=new URLSearchParams();
   for(const key of keys) if(state[key]!=null && state[key]!=='' && String(state[key])!==String(defaults[key])) params.set(key,String(state[key]));
@@ -88,43 +88,63 @@ export function comparisonData(works,{kind='country',left,right,...filters}) {
   const inWindow=d=>filters.year==='Missing year'?false:!Number.isFinite(Number(filters.year))?true:filters.period==='cumulative'?d.year<=Number(filters.year):d.year===Number(filters.year);
   return {a,b,overlap:b.filter(w=>ids.has(w.key)).length,annualA:annual(a).filter(inWindow),annualB:annual(b).filter(inWindow)};
 }
-export function comparisonView(data,{leftName,rightName}) {
-  const root=document.createElement('div');root.className='comparison-view';
-  const cards=document.createElement('div');cards.className='comparison-cards';
-  for(const [name,works,color] of [[leftName,data.a,'#25537b'],[rightName,data.b,'#a36b00']]){
-    const card=document.createElement('div');card.className='comparison-card';card.style.borderTopColor=color;
+export function comparisonView(data,{leftName,rightName,selectionState={},sameSelection=false}) {
+  const root=document.createElement('div');root.className='comparison-view compact-comparison';
+  const colors=['#25537b','#a36b00'];
+  const summary=document.createElement('div');summary.className='compare-summary';
+  for(const [i,name,works] of [[0,leftName,data.a],[1,rightName,data.b]]) {
+    const card=document.createElement('div');card.className='compare-total';card.style.borderTopColor=colors[i];
     const title=document.createElement('h2');title.textContent=name;
     const number=document.createElement('strong');number.textContent=works.length.toLocaleString();
-    const note=document.createElement('p');note.textContent=`publications · ${works.filter(w=>w.year===null).length} with unknown years`;
-    card.append(title,number,note);cards.append(card);
+    const label=document.createElement('span');label.textContent='publications';card.append(title,number,label);summary.append(card);
   }
-  root.append(cards);
-  if(leftName===rightName){const p=document.createElement('p');p.className='empty';p.textContent='Choose two different places to compare.';root.append(p);}
-  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 760 290');svg.setAttribute('role','img');svg.setAttribute('aria-label',`Annual publication counts: ${leftName} and ${rightName}. Values are available in the table below.`);
+  const overlap=document.createElement('div');overlap.className='compare-overlap';
+  const number=document.createElement('strong');number.textContent=data.overlap.toLocaleString();
+  const label=document.createElement('span');label.textContent='shared publications';overlap.append(number,label);summary.append(overlap);root.append(summary);
+  if(sameSelection){const p=document.createElement('p');p.className='empty';p.textContent='Choose two different selections for a useful comparison.';root.append(p);}
+  const switcher=document.createElement('div');switcher.className='compare-switcher';switcher.setAttribute('role','group');switcher.setAttribute('aria-label','Comparison chart');
+  const trends=document.createElement('section'),fieldsPanel=document.createElement('section');trends.className='compare-trends';fieldsPanel.className='compare-fields';
+  const buttons=[];
+  for(const [value,label] of [['trends','Publication trends'],['fields','Research fields']]) {
+    const button=document.createElement('button');button.type='button';button.textContent=label;button.onclick=()=>setView(value);buttons.push([button,value]);switcher.append(button);
+  }
+  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 760 270');svg.setAttribute('role','img');svg.setAttribute('aria-label',`Annual publication counts for ${leftName} and ${rightName}. Exact values are available in View exact counts.`);
   const start=data.annualA[0]?.year??2006,end=data.annualA.at(-1)?.year??2026;
   const x=year=>start===end?392.5:60+(year-start)/(end-start)*665;
   const max=Math.max(1,...data.annualA.map(d=>d.publications),...data.annualB.map(d=>d.publications));
-  function line(x1,y1,x2,y2,stroke){const n=document.createElementNS(ns,'line');for(const [k,v] of Object.entries({x1,y1,x2,y2,stroke}))n.setAttribute(k,v);svg.append(n);}
-  function text(x,y,value){const n=document.createElementNS(ns,'text');n.setAttribute('x',x);n.setAttribute('y',y);n.textContent=value;svg.append(n);}
-  for(let i=0;i<=4;i++){const y=235-i*50;line(60,y,725,y,'#dce4ee');text(4,y+5,Math.round(max*i/4).toLocaleString());}
-  for(const year of [...new Set([start,2010,2015,2020,end])].filter(y=>y>=start&&y<=end).sort((a,b)=>a-b))text(x(year)-15,265,String(year));
-  for(const [rows,color] of [[data.annualA,'#25537b'],[data.annualB,'#a36b00']]){
-    const n=document.createElementNS(ns,'polyline');n.setAttribute('points',rows.map(d=>`${x(d.year)},${235-d.publications/max*200}`).join(' '));n.setAttribute('fill','none');n.setAttribute('stroke',color);n.setAttribute('stroke-width','3');svg.append(n);
-    for(const d of rows){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',x(d.year));dot.setAttribute('cy',235-d.publications/max*200);dot.setAttribute('r','3');dot.setAttribute('fill',color);const title=document.createElementNS(ns,'title');title.textContent=`${d.year}: ${d.publications.toLocaleString()} publications`;dot.append(title);svg.append(dot);}
+  const text=(x,y,value)=>{const node=document.createElementNS(ns,'text');node.setAttribute('x',x);node.setAttribute('y',y);node.textContent=value;svg.append(node);};
+  for(let i=0;i<=4;i++){const y=225-i*47.5;const line=document.createElementNS(ns,'line');for(const [k,v] of Object.entries({x1:60,x2:725,y1:y,y2:y,stroke:'#dce4ee'}))line.setAttribute(k,v);svg.append(line);text(2,y+5,Math.round(max*i/4).toLocaleString());}
+  for(const year of [...new Set([start,2010,2015,2020,end])].filter(y=>y>=start&&y<=end).sort((a,b)=>a-b))text(x(year)-15,253,String(year));
+  for(const [rows,color] of [[data.annualA,colors[0]],[data.annualB,colors[1]]]){
+    const line=document.createElementNS(ns,'polyline');line.setAttribute('points',rows.map(d=>`${x(d.year)},${225-d.publications/max*190}`).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke',color);line.setAttribute('stroke-width','3');svg.append(line);
+    for(const d of rows){const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',x(d.year));dot.setAttribute('cy',225-d.publications/max*190);dot.setAttribute('r','3');dot.setAttribute('fill',color);const title=document.createElementNS(ns,'title');title.textContent=`${d.year}: ${d.publications.toLocaleString()} publications`;dot.append(title);svg.append(dot);}
   }
-  root.append(svg);
-  const legend=document.createElement('p');legend.className='comparison-legend';
-  for(const [name,color] of [[leftName,'#25537b'],[rightName,'#a36b00']]){const span=document.createElement('span');span.style.color=color;span.textContent='● '+name;legend.append(span);}
-  root.append(legend);
-  const note=document.createElement('p');note.textContent=`${data.overlap.toLocaleString()} publications are shared by both selections and counted in each. 2026 is incomplete. Counts reflect the active time, field, topic, and search filters.`;root.append(note);
-  function table(headers,rows){const table=document.createElement('table');const head=document.createElement('thead'),tr=document.createElement('tr');for(const v of headers){const th=document.createElement('th');th.scope='col';th.textContent=v;tr.append(th);}head.append(tr);table.append(head);const body=document.createElement('tbody');for(const row of rows){const tr=document.createElement('tr');for(const v of row){const td=document.createElement('td');td.textContent=v;tr.append(td);}body.append(tr);}table.append(body);return table;}
+  trends.append(svg);
+  if(!data.annualA.length){const p=document.createElement('p');p.textContent='No dated years in this window. Publication totals above include eligible unknown dates.';trends.append(p);}
   const a=new Map(counts(data.a,'field').map(d=>[d.label,d.publications])),b=new Map(counts(data.b,'field').map(d=>[d.label,d.publications]));
-  const fields=[...new Set([...a.keys(),...b.keys()])].sort((x,y)=>(a.get(y)||0)+(b.get(y)||0)-(a.get(x)||0)-(b.get(x)||0)).slice(0,10);
-  const heading=document.createElement('h2');heading.textContent='Research field composition';root.append(heading);
+  const fields=[...new Set([...a.keys(),...b.keys()])].sort((x,y)=>(a.get(y)||0)+(b.get(y)||0)-(a.get(x)||0)-(b.get(x)||0)||x.localeCompare(y)).slice(0,10);
+  const fieldNote=document.createElement('p');fieldNote.className='field-note';fieldNote.textContent='Top six primary fields · percentage of each selection’s publications';fieldsPanel.append(fieldNote);
   const fmt=(n,total)=>`${n.toLocaleString()} (${total?(100*n/total).toFixed(1):'0.0'}%)`;
-  const wrap=document.createElement('div');wrap.className='comparison-table';wrap.append(table(['Primary field',leftName,rightName],fields.map(f=>[f,fmt(a.get(f)||0,data.a.length),fmt(b.get(f)||0,data.b.length)])));root.append(wrap);
-  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Annual counts as a table';details.append(summary,table(['Year',leftName,rightName],data.annualA.map((r,i)=>[String(r.year),r.publications.toLocaleString(),data.annualB[i].publications.toLocaleString()])));root.append(details);
-  return root;
+  for(const f of fields.slice(0,6)){
+    const row=document.createElement('div');row.className='compare-field-row';const heading=document.createElement('strong');heading.textContent=f;row.append(heading);
+    for(const [counts,total,color,name] of [[a,data.a.length,colors[0],leftName],[b,data.b.length,colors[1],rightName]]){
+      const n=counts.get(f)||0,bar=document.createElement('div');bar.className='compare-field-bar';bar.setAttribute('aria-label',`${name}: ${fmt(n,total)}`);
+      const track=document.createElement('div');track.className='compare-field-track';const fill=document.createElement('div');fill.style.width=`${total?100*n/total:0}%`;fill.style.background=color;track.append(fill);
+      const value=document.createElement('span');value.textContent=fmt(n,total);bar.append(track,value);row.append(bar);
+    }
+    fieldsPanel.append(row);
+  }
+  if(!fields.length){const p=document.createElement('p');p.textContent='No publications match these filters.';fieldsPanel.append(p);}
+  const legend=document.createElement('div');legend.className='compact-legend';
+  for(const [name,color] of [[leftName,colors[0]],[rightName,colors[1]]]){const span=document.createElement('span');span.style.color=color;span.textContent='● '+name;legend.append(span);}
+  root.append(switcher,legend,trends,fieldsPanel);
+  function table(headers,rows){const table=document.createElement('table'),head=document.createElement('thead'),tr=document.createElement('tr');for(const v of headers){const th=document.createElement('th');th.scope='col';th.textContent=v;tr.append(th);}head.append(tr);table.append(head);const body=document.createElement('tbody');for(const row of rows){const tr=document.createElement('tr');for(const v of row){const td=document.createElement('td');td.textContent=v;tr.append(td);}body.append(tr);}table.append(body);return table;}
+  const details=document.createElement('details');details.className='compare-exact';const detailTitle=document.createElement('summary');detailTitle.textContent='View exact counts';
+  const annualTable=table(['Year',leftName,rightName],data.annualA.map((r,i)=>[String(r.year),r.publications.toLocaleString(),data.annualB[i].publications.toLocaleString()]));
+  const fieldTable=table(['Primary field',leftName,rightName],fields.map(f=>[f,fmt(a.get(f)||0,data.a.length),fmt(b.get(f)||0,data.b.length)]));details.append(detailTitle,annualTable,fieldTable);root.append(details);
+  const note=document.createElement('p');note.className='comparison-footnote';note.textContent=`Shared publications count in both selections. Unknown years: ${leftName} ${data.a.filter(w=>w.year===null).length}; ${rightName} ${data.b.filter(w=>w.year===null).length}. 2026 is incomplete.`;root.append(note);
+  function setView(view){root.value=view==='fields'?'fields':'trends';selectionState.view=root.value;trends.hidden=root.value!=='trends';fieldsPanel.hidden=root.value!=='fields';annualTable.hidden=root.value!=='trends';fieldTable.hidden=root.value!=='fields';for(const [button,value] of buttons)button.setAttribute('aria-pressed',String(root.value===value));root.dispatchEvent(new Event('input',{bubbles:true}));}
+  setView(selectionState.view);return root;
 }
 
 export function resetOverview({timeline,fieldInput,topicInput,searchInput,map}) {
