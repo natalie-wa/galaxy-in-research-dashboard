@@ -91,3 +91,36 @@ body,input,select,button,table,svg text{font-family:var(--sans-serif)!important}
 @media(max-width:500px){.topic-explorer{grid-template-columns:1fr}.timeline label{width:100%}.map-toolbar .institution-panel{grid-template-columns:1fr}.map-toolbar .map-legend{flex-basis:100%}}
 
 .comparison-table table{max-width:none;display:table}
+
+/* The overview opens on geography; refinement controls remain one click away. */
+.overview-hero{padding:24px 0 14px;align-items:center;gap:20px}
+.overview-hero h1{font-size:clamp(2.2rem,3.4vw,3rem);margin:8px 0 10px}
+.overview-hero p{font-size:17px}
+.overview-map-heading{margin:18px 0 12px}
+.overview-stats{margin:18px 0}
+.overview-stats .stat{padding:16px 22px}
+.overview-stats .stat strong{font-size:1.85rem}
+.overview-filters{background:#fff;border:1px solid #dfe5ed;border-radius:10px;margin:18px 0;overflow:hidden}
+.overview-filters summary{cursor:pointer;padding:16px 20px;color:#25537b;font-size:16px}
+.overview-filters summary strong{font-weight:700}
+.overview-filters summary span{display:block;margin:5px 0 0 18px;color:#4d5b6e;font-size:14px;overflow-wrap:anywhere}
+.overview-filters[open] summary{border-bottom:1px solid #dfe5ed}
+.overview-filters .filter-bar,.overview-filters .timeline{margin:0;padding:18px 20px;border:0;border-radius:0;box-shadow:none}
+.overview-filters .timeline{border-top:1px solid #edf0f4}
+.overview-filters summary:focus-visible{outline:3px solid #d19e00;outline-offset:-4px}
+.map-toolbar{display:grid;grid-template-columns:minmax(160px,.9fr) minmax(230px,1.2fr) minmax(200px,1fr);align-items:start;gap:24px;padding:16px 20px}
+.map-toolbar .country-picker{display:flex;flex-direction:column;gap:8px;min-width:0}
+.map-tool-label{font-weight:700;color:#25537b;font-size:14px;line-height:20px}
+.map-toolbar .country-picker select{width:100%;height:38px;padding:7px 10px;font-size:15px}
+.map-toolbar .institution-panel{display:flex;flex-direction:column;gap:8px;min-width:0}
+.map-toolbar .institution-panel label{line-height:20px;margin:0}
+.map-toolbar .institution-panel select{height:38px;width:100%;padding:7px 10px;font-size:15px}
+.map-toolbar .institution-panel [hidden]{display:none}
+.map-toolbar .institution-panel small{font-size:14px;line-height:1.35}
+.map-toolbar .institution-panel .clear-institution{margin-top:0;align-self:start}
+.map-toolbar .map-legend{min-width:0;max-width:300px;justify-self:end;width:100%}
+.map-toolbar .map-legend>span{display:block;line-height:20px}
+.map-toolbar .legend-ramp{margin-top:12px}
+.map-toolbar .map-legend small{font-size:14px;line-height:1.35;display:block;margin-top:5px}
+@media(max-width:900px){.map-toolbar{grid-template-columns:1fr 1.2fr;gap:16px 22px}.map-toolbar .map-legend{grid-column:1/-1;justify-self:start;max-width:330px}.overview-hero{display:block}.overview-hero .snapshot{margin-top:12px}}
+@media(max-width:540px){.map-toolbar{grid-template-columns:1fr;gap:16px;padding:16px}.map-toolbar .map-legend{grid-column:auto;max-width:none}.overview-hero{padding-top:20px}.overview-hero h1{font-size:2.2rem}.overview-hero .eyebrow{font-size:12px}.overview-map-heading{flex-direction:column;gap:8px}.overview-map-heading .section-label{font-size:14px}.overview-stats .stat{padding:14px}.overview-filters summary{padding:14px 16px}.overview-filters .timeline,.overview-filters .filter-bar{padding:16px}}

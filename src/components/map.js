@@ -70,7 +70,8 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   dropdown.value=selectedCountry();
   dropdown.onchange=()=>{root.value=dropdown.value;paint();writeReadout(features.find(d=>featureCode(d)===selectedCountry()));emitSelection();};
   root.addEventListener('input',event=>{if(event.target===root)dropdown.value=selectedCountry();});
-  picker.append(dropdown);
+  const countryLabel=document.createElement('span');countryLabel.className='map-tool-label';countryLabel.textContent='Country';
+  picker.append(countryLabel,dropdown);
   const overlay = layer.append('g').attr('class','institution-overlay');
   const panel = document.createElement('div');panel.className='institution-panel';
   const toggleLabel = document.createElement('label');
@@ -80,7 +81,7 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
   for(const n of [100,300,1000]){const option=document.createElement('option');option.value=String(n);option.textContent=`Up to ${n.toLocaleString()} institutions`;limit.append(option);}
   limit.value=String(overlayLimit);
   const status=document.createElement('small');status.setAttribute('aria-live','polite');
-  const description=document.createElement('small');description.textContent='Gold dots · Click a dot to discover its papers. Ranked within the filters above.';
+  const description=document.createElement('small');description.textContent='Select a gold dot to filter publications.';
   function renderInstitutions(){
     const visible=overlayEnabled?institutions.slice(0,overlayLimit):[];
     const chosen=institutions.find(d=>d.id===selectedInstitution());
@@ -97,7 +98,8 @@ export function researchMap(world, countryCounts, {width=1200,institutions=[],in
       .on('keydown',(event,d)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();selectInstitution(d);}});
     markers.append('title').text(d=>`${d.name}\n${[d.city,d.country_code].filter(Boolean).join(', ')}\n${d.publications.toLocaleString()} publications`);
     limit.disabled=!overlayEnabled;
-    status.textContent=overlayEnabled?`${visible.length.toLocaleString()} shown · ${institutions.length.toLocaleString()} available`:'Optional institution overlay';
+    status.textContent=overlayEnabled?`${visible.length.toLocaleString()} shown · ${institutions.length.toLocaleString()} available`:'';
+    status.hidden=!overlayEnabled;description.hidden=!overlayEnabled;
     paint();
   }
   function selectInstitution(d){root.value=selectedInstitution()===d.id?'All countries':'institution:'+d.id;paint();emitSelection();}
