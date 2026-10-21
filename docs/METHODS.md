@@ -53,3 +53,7 @@ The overview's Reset map & filters button returns the time window to All years /
 ## Compact comparison display
 
 The comparison workspace presents one chart at a time. Publication trends use annual counts on common axes. Research fields displays the leading six fields ranked by combined group count, with bars on a common 0–100% scale and exact counts and within-group percentages. Expand View exact counts for annual values or the leading ten field rows in the selected chart mode. Additional filters are visible under Refine comparison, with the active selection summarized when collapsed. The chart mode is retained across filter changes and included in shared comparison URLs.
+
+## Publication explorer
+
+The explorer uses a paginated result list with 10, 25, or 50 publications per page. Sort options are newest, oldest, and title; unknown dates sort last for either date ordering, with deterministic title/key tie breaks. Metadata details are expandable per publication. Country and exact-institution filters continue to intersect with year, time window, field, topic, and title/DOI search. The institution selector includes the full supplied institution registry, independent of the map location pool. Filter changes reset pagination to page one. Share links retain page, sort order, and page size. The JSON download includes the entire filtered selection, not just the visible page.

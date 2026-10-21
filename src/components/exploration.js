@@ -1,7 +1,7 @@
 import {annual, counts, filterWorks} from './metrics.js';
 
 const defaults={year:'All years',period:'year',field:'All fields',topic:'All topics',query:'',country:'All countries',institution:'All institutions'};
-const keys=[...Object.keys(defaults),'kind','left','right','overlay','limit','view'];
+const keys=[...Object.keys(defaults),'kind','left','right','overlay','limit','view','sort','page','size'];
 export function viewHref(page, state={}) {
   const params=new URLSearchParams();
   for(const key of keys) if(state[key]!=null && state[key]!=='' && String(state[key])!==String(defaults[key])) params.set(key,String(state[key]));
